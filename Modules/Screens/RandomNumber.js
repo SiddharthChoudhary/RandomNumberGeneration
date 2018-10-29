@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {Platform, StyleSheet, Text, View, Button, Image, Dimensions, Picker, TextInput, ActivityIndicator, Share} from 'react-native';
+import {Platform, StyleSheet, Text, View, Button, Image, Dimensions, ScrollView, Picker, TextInput, ActivityIndicator, Share} from 'react-native';
 
 class RandomNumber extends Component{
 
@@ -26,7 +26,7 @@ class RandomNumber extends Component{
     getRandomNumber(){
         this.setState({ isLoading : true });
         fetch('https://facebook.github.io/react-native/movies.json?minRange='+this.state.minRange+
-              '&maxRange='+this.state.maxRange+'&type='+this.state.type+'&quantity='+this.state.quanity)
+        '&maxRange='+this.state.maxRange+'&type='+this.state.type+'&quantity='+this.state.quanity)
         .then((response) => response.json())
         .then((responseJson) => {
             this.setState({
@@ -34,7 +34,7 @@ class RandomNumber extends Component{
                 randomNumber: [4,6,7,8,9],//responseJson.finalrandomarray
                 showNumber : true
             });
-        })    
+        })  
     }
 
     saveThisNumber(){
@@ -65,7 +65,7 @@ class RandomNumber extends Component{
                     (this.state.showNumber) ?
                         this.showRandomNumber()
                     :    
-                    <View>
+                    <ScrollView>
                          <Text style={styles.label}>Min Range of Number : </Text>  
                         <TextInput maxLength={2} keyboardType = 'numeric' style={{ borderBottomWidth : 1 }} value={this.state.minRange} 
                         onChangeText={(value) => this.setState({minRange : value }) } />
@@ -80,11 +80,12 @@ class RandomNumber extends Component{
                         <Text style={styles.label}>Type :</Text>
                         <Picker
                             selectedValue={this.state.type}
-                            style={{ height: 50, width: 150}}
+                            style={{ height: 100, width: 150}}
                             onValueChange={(itemValue, itemIndex) => this.setState({type: itemValue})}>
                             <Picker.Item label="Distributed" value="distributed" />
                             <Picker.Item label="Uniform" value="uniform" />
                         </Picker>
+
                         {
                             (this.state.isLoading) ?
                             <ActivityIndicator  size="large" color="#0000ff" /> 
@@ -94,7 +95,7 @@ class RandomNumber extends Component{
                             title="Get the Random Number"
                             />
                         }
-                    </View>  
+                    </ScrollView>  
               }
               </View>   
           </View>

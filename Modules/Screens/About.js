@@ -13,6 +13,7 @@ class About extends Component{
                 title="Get Started"
                 />
             ),
+            headerLeft : null
         }
        
     };
