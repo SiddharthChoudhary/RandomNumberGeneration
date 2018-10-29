@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {Platform, StyleSheet, Text, View, Button, Image, Dimensions, Picker, TextInput, ActivityIndicator} from 'react-native';
+import {Platform, StyleSheet, Text, View, Button, Image, Dimensions, Picker, TextInput, ActivityIndicator, Share} from 'react-native';
 
 class RandomNumber extends Component{
 
@@ -16,40 +16,41 @@ class RandomNumber extends Component{
             minRange : '',
             maxRange : '',
             quanity : '',
-            type:'',
-            loader : false,
-            randomNumber : '123',
+            type:'distributed',
+            isLoading : false,
+            randomNumber : null,
             showNumber : false
         };
     }
 
     getRandomNumber(){
-      // require the module
-var RNFS = require('react-native-fs');
+        this.setState({ isLoading : true });
+        fetch('https://facebook.github.io/react-native/movies.json?minRange='+this.state.minRange+
+              '&maxRange='+this.state.maxRange+'&type='+this.state.type+'&quantity='+this.state.quanity)
+        .then((response) => response.json())
+        .then((responseJson) => {
+            this.setState({
+                isLoading: false,
+                randomNumber: [4,6,7,8,9],//responseJson.finalrandomarray
+                showNumber : true
+            });
+        })    
+    }
 
-// create a path you want to write to
-// :warning: on iOS, you cannot write into `RNFS.MainBundlePath`,
-// but `RNFS.DocumentDirectoryPath` exists on both platforms and is writable
-var path = RNFS.DocumentDirectoryPath + '/test.txt';
-
-// write the file
-RNFS.writeFile(path, 'Lorem ipsum dolor sit amet', 'utf8')
-  .then((success) => {
-    alert(path);
-  })
-  .catch((err) => {
-    alert(err.message);
-  });
-
+    saveThisNumber(){
+        const sharing_msg = JSON.stringify(this.state.randomNumber);
+        Share.share({
+            message: sharing_msg
+        });  
     }
 
     showRandomNumber(){
         return(
             <View>
-                <Text style={styles.numberText}>{this.state.randomNumber}</Text>
+                <Text style={styles.numberText}>{JSON.stringify(this.state.randomNumber)}</Text>
                 <Button
-                    onPress={() => this.getRandomNumber() }
-                    title="Save to file"
+                    onPress={() => this.saveThisNumber() }
+                    title="Save"
                 />   
             </View>
         )
@@ -78,14 +79,14 @@ RNFS.writeFile(path, 'Lorem ipsum dolor sit amet', 'utf8')
                             onChangeText={(value) => this.setState({quanity : value }) }/>  
                         <Text style={styles.label}>Type :</Text>
                         <Picker
-                            selectedValue={this.state.language}
+                            selectedValue={this.state.type}
                             style={{ height: 50, width: 150}}
                             onValueChange={(itemValue, itemIndex) => this.setState({type: itemValue})}>
                             <Picker.Item label="Distributed" value="distributed" />
                             <Picker.Item label="Uniform" value="uniform" />
                         </Picker>
                         {
-                            (this.state.loader) ?
+                            (this.state.isLoading) ?
                             <ActivityIndicator  size="large" color="#0000ff" /> 
                             :
                             <Button

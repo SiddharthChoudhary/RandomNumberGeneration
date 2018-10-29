@@ -11,8 +11,10 @@ import { Text, View } from 'react-native';
 import { createStackNavigator } from 'react-navigation';
 import AboutScreen from '../Modules/Screens/About'
 import RandomNumberScreen from '../Modules/Screens/RandomNumber';
+import SplashScreen from '../Modules/Screens/SplashScreen';
 
 export default createStackNavigator({
-  Home: AboutScreen,
+  Splash : SplashScreen,
+  About: AboutScreen,
   RandomNumber: RandomNumberScreen,
 });
