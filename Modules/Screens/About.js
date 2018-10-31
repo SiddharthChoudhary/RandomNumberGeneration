@@ -9,6 +9,7 @@ class About extends Component{
             headerTitle: 'About',
             headerRight: (
             <Button
+                color='#ff4a52'
                 onPress={() => navigation.push('RandomNumber') }
                 title="Get Started"
                 />
