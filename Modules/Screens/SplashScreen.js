@@ -23,8 +23,8 @@ class Splash extends Component{
     render() {
         return (
           <View style={styles.container}>
-                <Text style={styles.title}>Random Number</Text>
-                <Text style={styles.title}>Generator</Text>
+                <Image source={require('../Images/icon.png')} style={styles.imageDimensions} />  
+                <Text style={styles.title}>QUANTUM RNG & GAMES</Text>
           </View>
         );
     }
@@ -40,6 +40,10 @@ const styles = StyleSheet.create({
     title:{
         color : '#FFF',
         fontSize : 25
+    },
+    imageDimensions:{
+        width : 300,
+        height : 250
     }    
 });
   

@@ -50,7 +50,7 @@ class RandomNumber extends Component{
 
     showRandomNumber(){
         return(
-            <View>
+            <View style={styles.addMargin}>
                 <Text style={styles.numberText}>{JSON.stringify(this.state.randomNumber)}</Text>
                 <Button
                     color='#ff4a52'
@@ -70,7 +70,7 @@ class RandomNumber extends Component{
 
     render() {
         return (
-          <View style={styles.container}>
+          <View style={[styles.container, styles.themeBg]}>
               <View>
                 {
                     (this.state.showNumber) ?
@@ -78,20 +78,20 @@ class RandomNumber extends Component{
                     :    
                     <ScrollView>
                          <Text style={styles.label}>Min Range of Number : </Text>  
-                        <TextInput maxLength={2} keyboardType = 'numeric' style={{ borderBottomWidth : 1 }} value={this.state.minRange} 
+                        <TextInput maxLength={2} keyboardType = 'numeric' style={styles.textBorder} value={this.state.minRange} 
                         onChangeText={(value) => this.setState({minRange : value }) } />
                         <Text style={styles.label}>Max Range of Number : </Text>  
-                            <TextInput maxLength={2} keyboardType = 'numeric' style={{ borderBottomWidth : 1 }} 
+                            <TextInput maxLength={2} keyboardType = 'numeric' style={styles.textBorder} 
                             value={this.state.maxRange}
                             onChangeText={(value) => this.setState({maxRange : value }) }/>  
                         <Text style={styles.label}>How many numbers you want to generate? </Text> 
-                            <TextInput maxLength={2} keyboardType = 'numeric' style={{ borderBottomWidth : 1 }}
+                            <TextInput maxLength={2} keyboardType = 'numeric' style={styles.textBorder}
                             value={this.state.quanity}
                             onChangeText={(value) => this.setState({quanity : value }) }/>  
                         <View style={styles.label}></View>    
                         {
                             (this.state.isLoading) ?
-                            <ActivityIndicator  size="large" color="#0000ff" /> 
+                            <ActivityIndicator  size="large" color="#fff" /> 
                             :
                             <View>
                             <Button
@@ -116,6 +116,7 @@ class RandomNumber extends Component{
 }
 
 const styles = StyleSheet.create({
+
     container : {
         flex : 1,
         margin : 15,
@@ -124,15 +125,30 @@ const styles = StyleSheet.create({
     },
     label : {
         marginTop : 20,
-        marginBottom : 10
+        marginBottom : 10,
+        color : '#fff'
     },
     numberText :{
         padding : 15,
         borderWidth : 1,
-        marginBottom : 20
+        marginBottom : 20,
+        borderColor : '#fff',
+        color :'#fff'
     },
     themeBg :{
-        backgroundColor : '#ff4a52'
+        backgroundColor : '#ff4a52',
+        margin : 0,
+        padding : 0
+    },
+    textBorder : {
+        borderWidth : 1,
+        borderColor : '#fff',
+        borderRadius : 3,
+        color : '#fff'    
+    },
+    addMargin : {
+        margin : 20,
+        fontSize : 18
     }
   });
   
