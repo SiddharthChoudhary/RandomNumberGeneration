@@ -53,13 +53,13 @@ class RandomNumber extends Component{
             <View style={styles.addMargin}>
                 <Text style={styles.numberText}>{JSON.stringify(this.state.randomNumber)}</Text>
                 <Button
-                    color='#ff4a52'
+                    color='#c80512'
                     onPress={() => this.saveThisNumber() }
                     title="Save"
                 /> 
                 <View style={styles.label}></View>
                 <Button
-                    color='#ff4a52'
+                    color='#c80512'
                     onPress={() => this.setState({ showNumber : false, randomNumber : null}) }
                     title="Back to generate new Number"
                 />
@@ -95,13 +95,13 @@ class RandomNumber extends Component{
                             :
                             <View>
                             <Button
-                            color='#ff4a52'
+                            color='#c80512'
                             onPress={() => this.getRandomNumber('uniform') }
                             title="Get Uniform Random Number"
                             />
                             <View style={styles.label}></View>
                             <Button
-                            color='#ff4a52'
+                            color='#c80512'
                             onPress={() => this.getRandomNumber('distributive') }
                             title="Get Distributive Random Number"
                             />
@@ -136,7 +136,7 @@ const styles = StyleSheet.create({
         color :'#fff'
     },
     themeBg :{
-        backgroundColor : '#ff4a52',
+        backgroundColor : '#c80512',
         margin : 0,
         padding : 0
     },
