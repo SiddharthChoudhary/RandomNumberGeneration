@@ -28,13 +28,12 @@ class RandomNumber extends Component{
             alert('Please fill all the details')
         }else{
             this.setState({ isLoading : true });
-            fetch('https://facebook.github.io/react-native/movies.json?minRange='+this.state.minRange+
-            '&maxRange='+this.state.maxRange+'&type='+type+'&quantity='+this.state.quanity)
+            fetch('http://quest.phy.stevens.edu:5050/main?lower='+this.state.minRange+'&higher='+this.state.maxRange+'&amount='+this.state.quanity)
             .then((response) => response.json())
             .then((responseJson) => {
                 this.setState({
                     isLoading: false,
-                    randomNumber: [4,6,7,8,9,10,11,12,13,14,15,16,4,6,7,8,9,10,11,12,13,14,15,16],//responseJson.finalrandomarray
+                    randomNumber: responseJson.finalrandomarray,
                     showNumber : true
                 });
             })  
@@ -97,13 +96,13 @@ class RandomNumber extends Component{
                             <Button
                             color='#c80512'
                             onPress={() => this.getRandomNumber('uniform') }
-                            title="Get Uniform Random Number"
+                            title="Generate Uniform Number"
                             />
                             <View style={styles.label}></View>
                             <Button
                             color='#c80512'
                             onPress={() => this.getRandomNumber('distributive') }
-                            title="Get Distributive Random Number"
+                            title="Generate Distributive Number"
                             />
                             </View>
                         }
