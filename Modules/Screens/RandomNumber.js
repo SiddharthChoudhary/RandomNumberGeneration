@@ -22,11 +22,24 @@ class RandomNumber extends Component{
         };
     }
 
+	handleMinValueChange=(value)=>{
+	this.setState({
+	minRange:value.replace(/\D/g,'')
+	});			
+    }
+    handleMaxValueChange=(value)=>{
+    this.setState({
+    maxRange:value.replace(/\D/g,'')
+    });		
+    }
     getRandomNumber(type){
        
         if(!this.state.minRange.length || !this.state.maxRange.length || !this.state.quanity.length){
             alert('Please fill all the details')
-        }else{
+        }
+	if(this.state.minRange>this.state.maxRange){
+	    alert('Min range should be greater than the Max range')
+	}else{
             this.setState({ isLoading : true });
             fetch('http://quest.phy.stevens.edu:5050/main?lower='+this.state.minRange+'&higher='+this.state.maxRange+'&amount='+this.state.quanity)
             .then((response) => response.json())
@@ -76,13 +89,17 @@ class RandomNumber extends Component{
                         this.showRandomNumber()
                     :    
                     <ScrollView>
-                         <Text style={styles.label}>Min Range of Number : </Text>  
-                        <TextInput maxLength={2} keyboardType = 'numeric' style={styles.textBorder} value={this.state.minRange} 
-                        onChangeText={(value) => this.setState({minRange : value }) } />
-                        <Text style={styles.label}>Max Range of Number : </Text>  
+                         <Text style={styles.label}>Minimum Range of Number : </Text>  
+                        <TextInput maxLength={2} keyboardType = 'numeric' style={styles.textBorder} min={0} value={this.state.minRange} 
+                        onChangeText={(value) => {
+					this.handleMinValueChange(value) }
+						}
+ 						 />
+                        <Text style={styles.label}>Maximum Range of Number : </Text>  
                             <TextInput maxLength={2} keyboardType = 'numeric' style={styles.textBorder} 
-                            value={this.state.maxRange}
-                            onChangeText={(value) => this.setState({maxRange : value }) }/>  
+                            value={this.state.maxRange} min={0}
+                            onChangeText={(value) => {this.handleMaxValueChange(value) 
+					}}/>  
                         <Text style={styles.label}>How many numbers you want to generate? </Text> 
                             <TextInput maxLength={2} keyboardType = 'numeric' style={styles.textBorder}
                             value={this.state.quanity}

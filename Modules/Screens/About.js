@@ -14,7 +14,7 @@ class About extends Component{
                 title="Get Started"
                 />
             ),
-            headerLeft : null
+            headerLeft :null
         }
        
     };
@@ -31,7 +31,7 @@ class About extends Component{
               <Text style={styles.welcome}>
               The RNG & games are built upon the raw and true random numbers from inherently stochastic quantum processes. Our QRNs pass all randomness tests of the NIST and Dieharder test suites without any randomness extraction.              </Text>
               <Text style={styles.welcome}>
-              To learn more about how our QRNs and other ongoing quantum R&D,, please feel free to contact Prof. Yuping Huang
+              To learn more about how our QRNs and other ongoing quantum R&D, please feel free to contact Prof. Yuping Huang
               </Text> 
               <TouchableOpacity onPress={() => this.openExternalLinks('mailto:yuping.huang@stevens.edu')}>
                 <Text style={styles.link}>yuping.huang@stevens.edu</Text> 

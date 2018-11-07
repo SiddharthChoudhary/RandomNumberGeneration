@@ -23,7 +23,7 @@ class Splash extends Component{
     render() {
         return (
           <View style={styles.container}>
-                <Image source={require('../Images/icon.png')} style={styles.imageDimensions} />  
+                <Image source={require('../Images/splashScreenIcon.png')} style={styles.imageDimensions} />  
                 <Text style={styles.title}>QUANTUM RNG & GAMES</Text>
           </View>
         );
