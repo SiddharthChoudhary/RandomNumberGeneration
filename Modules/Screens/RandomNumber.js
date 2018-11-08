@@ -7,7 +7,7 @@ class RandomNumber extends Component{
         return{
             headerTitle: 'Generate Random Number'
         }
-       
+
     };
 
     constructor(props) {
@@ -25,20 +25,21 @@ class RandomNumber extends Component{
 	handleMinValueChange=(value)=>{
 	this.setState({
 	minRange:value.replace(/\D/g,'')
-	});			
+	});
     }
     handleMaxValueChange=(value)=>{
     this.setState({
     maxRange:value.replace(/\D/g,'')
-    });		
+    });
     }
     getRandomNumber(type){
-       
+
         if(!this.state.minRange.length || !this.state.maxRange.length || !this.state.quanity.length){
             alert('Please fill all the details')
+            return false
         }
-	if(this.state.minRange>this.state.maxRange){
-	    alert('Min range should be greater than the Max range')
+	if(Number(this.state.minRange)>Number(this.state.maxRange)){
+	    alert('Min range should be less than the Max range')
 	}else{
             this.setState({ isLoading : true });
             fetch('http://quest.phy.stevens.edu:5050/main?lower='+this.state.minRange+'&higher='+this.state.maxRange+'&amount='+this.state.quanity)
@@ -49,7 +50,7 @@ class RandomNumber extends Component{
                     randomNumber: responseJson.finalrandomarray,
                     showNumber : true
                 });
-            })  
+            })
         }
     }
 
@@ -57,7 +58,7 @@ class RandomNumber extends Component{
         const sharing_msg = JSON.stringify(this.state.randomNumber);
         Share.share({
             message: sharing_msg
-        });  
+        });
     }
 
     showRandomNumber(){
@@ -65,13 +66,13 @@ class RandomNumber extends Component{
             <View style={styles.addMargin}>
                 <Text style={styles.numberText}>{JSON.stringify(this.state.randomNumber)}</Text>
                 <Button
-                    color='#c80512'
+                    style={styles.applyColorAccordingToIOSandAndroid}
                     onPress={() => this.saveThisNumber() }
                     title="Save"
-                /> 
+                />
                 <View style={styles.label}></View>
                 <Button
-                    color='#c80512'
+                    style={styles.applyColorAccordingToIOSandAndroid}
                     onPress={() => this.setState({ showNumber : false, randomNumber : null}) }
                     title="Back to generate new Number"
                 />
@@ -87,45 +88,45 @@ class RandomNumber extends Component{
                 {
                     (this.state.showNumber) ?
                         this.showRandomNumber()
-                    :    
+                    :
                     <ScrollView>
-                         <Text style={styles.label}>Minimum Range of Number : </Text>  
-                        <TextInput maxLength={2} keyboardType = 'numeric' style={styles.textBorder} min={0} value={this.state.minRange} 
+                         <Text style={styles.label}>Minimum Range of Number : </Text>
+                        <TextInput maxLength={2} keyboardType = 'numeric' style={styles.textBorder} min={0} value={this.state.minRange}
                         onChangeText={(value) => {
-					this.handleMinValueChange(value) }
+					              this.handleMinValueChange(value) }
 						}
  						 />
-                        <Text style={styles.label}>Maximum Range of Number : </Text>  
-                            <TextInput maxLength={2} keyboardType = 'numeric' style={styles.textBorder} 
+                        <Text style={styles.label}>Maximum Range of Number : </Text>
+                            <TextInput maxLength={2} keyboardType = 'numeric' style={styles.textBorder}
                             value={this.state.maxRange} min={0}
-                            onChangeText={(value) => {this.handleMaxValueChange(value) 
-					}}/>  
-                        <Text style={styles.label}>How many numbers you want to generate? </Text> 
+                            onChangeText={(value) => {this.handleMaxValueChange(value)}}/>
+                        <Text style={styles.label}>How many numbers you want to generate? </Text>
                             <TextInput maxLength={2} keyboardType = 'numeric' style={styles.textBorder}
                             value={this.state.quanity}
-                            onChangeText={(value) => this.setState({quanity : value }) }/>  
-                        <View style={styles.label}></View>    
+                            onChangeText={(value) => this.setState({quanity : value }) }/>
+                        <View style={styles.label}></View>
                         {
                             (this.state.isLoading) ?
-                            <ActivityIndicator  size="large" color="#fff" /> 
+                            <ActivityIndicator  size="large" color="#fff" />
                             :
                             <View>
-                            <Button
-                            color='#c80512'
+                            <Button style={styles.textBorder}
+                            color= {Platform.OS ==='ios'?'#ffffff':'#c80512'}
                             onPress={() => this.getRandomNumber('uniform') }
                             title="Generate Uniform Number"
                             />
-                            <View style={styles.label}></View>
-                            <Button
-                            color='#c80512'
+                            <View  style={styles.label}></View>
+                            <Button style={styles.textBorder}
+                            color={Platform.OS ==='ios'?'#ffffff':'#c80512'}
                             onPress={() => this.getRandomNumber('distributive') }
                             title="Generate Distributive Number"
                             />
                             </View>
+
                         }
-                    </ScrollView>  
+                    </ScrollView>
               }
-              </View>   
+              </View>
           </View>
         );
       }
@@ -159,14 +160,18 @@ const styles = StyleSheet.create({
     textBorder : {
         borderWidth : 1,
         borderColor : '#fff',
+        backgroundColor:Platform.OS === 'ios'?'#fff':'',
         borderRadius : 3,
-        color : '#fff'    
+        color : Platform.OS === 'ios'?'#000':'#fff'
     },
     addMargin : {
         margin : 20,
         fontSize : 18
+    },
+    applyColorAccordingToIOSandAndroid:{
+      color: Platform.OS ==='ios'?'#fff':'#000'
     }
   });
-  
+
 
 export default RandomNumber;
