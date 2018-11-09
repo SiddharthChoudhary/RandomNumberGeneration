@@ -63,17 +63,19 @@ class RandomNumber extends Component{
 
     showRandomNumber(){
         return(
-            <View style={styles.addMargin}>
+            <View style={[styles.addMargin,styles.themeBg]}>
                 <Text style={styles.numberText}>{JSON.stringify(this.state.randomNumber)}</Text>
                 <Button
-                    style={styles.applyColorAccordingToIOSandAndroid}
+                    style={styles.textBorder}
+    		    color= {Platform.OS ==='ios'?'#ffffff':'#c80512'}
                     onPress={() => this.saveThisNumber() }
                     title="Save"
                 />
                 <View style={styles.label}></View>
                 <Button
-                    style={styles.applyColorAccordingToIOSandAndroid}
-                    onPress={() => this.setState({ showNumber : false, randomNumber : null}) }
+                    style={styles.textBorder}
+ 		    color= {Platform.OS ==='ios'?'#ffffff':'#c80512'}                   
+ 		    onPress={() => this.setState({ showNumber : false, randomNumber : null}) }
                     title="Back to generate new Number"
                 />
             </View>
@@ -160,7 +162,7 @@ const styles = StyleSheet.create({
     textBorder : {
         borderWidth : 1,
         borderColor : '#fff',
-        backgroundColor:Platform.OS === 'ios'?'#fff':'',
+        backgroundColor:Platform.OS==='ios'?'#ffffff':'#c80512',
         borderRadius : 3,
         color : Platform.OS === 'ios'?'#000':'#fff'
     },
