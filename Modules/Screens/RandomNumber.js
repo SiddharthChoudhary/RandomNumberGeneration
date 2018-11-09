@@ -22,15 +22,19 @@ class RandomNumber extends Component{
         };
     }
 
-	handleMinValueChange=(value)=>{
-	this.setState({
-	minRange:value.replace(/\D/g,'')
-	});
-    }
+    	handleMinValueChange=(value)=>{
+    	this.setState({
+    	minRange:value.replace(/\D/g,'')
+    	});}
     handleMaxValueChange=(value)=>{
     this.setState({
     maxRange:value.replace(/\D/g,'')
     });
+    }
+    handleAmount=(value)=>{
+      this.setState({
+        quanity:value.replace(/\D/g,'')
+      });
     }
     getRandomNumber(type){
 
@@ -74,7 +78,7 @@ class RandomNumber extends Component{
                 <View style={styles.label}></View>
                 <Button
                     style={styles.textBorder}
- 		    color= {Platform.OS ==='ios'?'#ffffff':'#c80512'}                   
+ 		    color= {Platform.OS ==='ios'?'#ffffff':'#c80512'}
  		    onPress={() => this.setState({ showNumber : false, randomNumber : null}) }
                     title="Back to generate new Number"
                 />
@@ -96,8 +100,8 @@ class RandomNumber extends Component{
                         <TextInput maxLength={2} keyboardType = 'numeric' style={styles.textBorder} min={0} value={this.state.minRange}
                         onChangeText={(value) => {
 					              this.handleMinValueChange(value) }
-						}
- 						 />
+						            }
+ 						            />
                         <Text style={styles.label}>Maximum Range of Number : </Text>
                             <TextInput maxLength={2} keyboardType = 'numeric' style={styles.textBorder}
                             value={this.state.maxRange} min={0}
@@ -105,7 +109,7 @@ class RandomNumber extends Component{
                         <Text style={styles.label}>How many numbers you want to generate? </Text>
                             <TextInput maxLength={2} keyboardType = 'numeric' style={styles.textBorder}
                             value={this.state.quanity}
-                            onChangeText={(value) => this.setState({quanity : value }) }/>
+                            onChangeText={(value) => {this.handleAmount(value)}}/>
                         <View style={styles.label}></View>
                         {
                             (this.state.isLoading) ?
