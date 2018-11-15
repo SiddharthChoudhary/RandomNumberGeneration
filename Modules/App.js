@@ -12,9 +12,11 @@ import { createStackNavigator } from 'react-navigation';
 import AboutScreen from '../Modules/Screens/About'
 import RandomNumberScreen from '../Modules/Screens/RandomNumber';
 import SplashScreen from '../Modules/Screens/SplashScreen';
+import MegaMillion from '../Modules/Screens/MegaMillion';
 
 export default createStackNavigator({
   Splash : SplashScreen,
   About: AboutScreen,
   RandomNumber: RandomNumberScreen,
+  MegaMillion:MegaMillion
 });
