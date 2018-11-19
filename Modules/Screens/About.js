@@ -6,7 +6,16 @@ class About extends Component{
 
     static navigationOptions = ({ navigation }) => {
         return{
-            headerTitle: 'About',
+
+            headerTitle: <Text style={{
+          color:"#000",
+          marginLeft:95,
+          alignSelf:'center',
+          textAlign:'center',
+          fontSize:18
+      }}>
+          About Us
+      </Text>,
             headerRight: (
             <Button
                 color='#c80512'
