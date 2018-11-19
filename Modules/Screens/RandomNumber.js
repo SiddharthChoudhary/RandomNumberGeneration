@@ -119,13 +119,7 @@ class RandomNumber extends Component{
                             <Button style={styles.textBorder}
                             color= {Platform.OS ==='ios'?'#ffffff':'#c80512'}
                             onPress={() => this.getRandomNumber('uniform') }
-                            title="Generate Uniform Number"
-                            />
-                            <View  style={styles.label}></View>
-                            <Button style={styles.textBorder}
-                            color={Platform.OS ==='ios'?'#ffffff':'#c80512'}
-                            onPress={() => this.getRandomNumber('distributive') }
-                            title="Generate Distributive Number"
+                            title="Uniform Distribution"
                             />
                             </View>
 
