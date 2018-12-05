@@ -33,13 +33,10 @@ class HomeScreen extends Component{
       <Row size={1}>
         <Col>
         <View style={styles.container}>
+
           <TouchableOpacity style={styles.button} onPress={()=>this.props.navigation.push('RandomNumber')}>
           <Image source={require("../Images/Uniform.png")} style={styles.imageStyle}/>
-<<<<<<< HEAD
           <View style={styles.viewStyle}>
-=======
-          <View marginTop={7} marginLeft={6}>
->>>>>>> master
            <Text style={styles.label}>
            Uniform QRN
            </Text>
@@ -52,11 +49,7 @@ class HomeScreen extends Component{
         <View style={styles.container}>
           <TouchableOpacity style={styles.button} onPress={()=>this.props.navigation.push('NormalDistribution')}>
            <Image source={require("../Images/normal.png")} style={styles.imageStyle}/>
-<<<<<<< HEAD
           <View style={styles.viewStyle}>
-=======
-          <View marginTop={7} marginLeft={12}>
->>>>>>> master
            <Text style={styles.label}>
            Normal QRN
            </Text>
@@ -72,18 +65,12 @@ class HomeScreen extends Component{
         <View style={styles.container}>
           <TouchableOpacity style={styles.button} onPress={()=>this.props.navigation.push('MegaMillion')}>
            <Image source={require("../Images/mega.png")} style={styles.imageStyle}/>
-<<<<<<< HEAD
           <View style={styles.viewStyle}>
            <Text style={styles.label}>
            Mega
            <Text style={styles.label}>
            Millions
            </Text>
-=======
-          <View marginTop={7} marginLeft={6}>
-           <Text style={styles.label}>
-           Quantum Mega Millions
->>>>>>> master
            </Text>
            </View>
            </TouchableOpacity>
@@ -93,11 +80,7 @@ class HomeScreen extends Component{
         <View style={styles.container}>
           <TouchableOpacity style={styles.button} onPress={()=>this.props.navigation.push('About')}>
            <Image source={require("../Images/about.png")} style={styles.imageStyle}/>
-<<<<<<< HEAD
         <View style={styles.viewStyle} marginLeft={3}>
-=======
-        <View marginTop={7} marginLeft={12}>
->>>>>>> master
           <Text style={styles.label}>
           About
           </Text>
@@ -129,14 +112,11 @@ const styles= StyleSheet.create({
      borderRadius:20,
      width:70
    },
-<<<<<<< HEAD
    viewStyle:{
      marginTop:Platform.OS==='ios'?7:2,
    marginLeft:Platform.OS==='ios'?12:0
    },
 
-=======
->>>>>>> master
    container: {
     flex: 1,
     //backgroundColor: '#fff',
