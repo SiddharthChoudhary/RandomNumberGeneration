@@ -1,25 +1,38 @@
 import React, {Component} from 'react';
-import {Platform, StyleSheet, Text, View, Button, Image, Dimensions, ScrollView, TouchableOpacity, Linking} from 'react-native';
+import {Platform, StyleSheet, Text, View, Button, Image,ImageBackground,TouchableOpacity, Dimensions, ScrollView, TextInput, ActivityIndicator, Share} from 'react-native';
+import { Col, Row, Grid } from 'react-native-easy-grid'
+var {height, width} = Dimensions.get('window');
+class BackgroundImageComponent extends Component {
 
+    render() {
+      let image= this.props.image;
+        return (
+            <ImageBackground style={styles.backgroundImage} source={require('../Images/aboutpage.png')}>
+                    {this.props.children}
+            </ImageBackground>
+        )
+    }
+}
 
 class About extends Component{
 
     static navigationOptions = ({ navigation }) => {
         return{
-            headerRight: (
-            <Button
-                color='#c80512'
-                onPress={() => navigation.push('RandomNumber') }
-                title="QRNG"
-                />
-            ),
-            headerLeft :(
-            <Button
-                color='#c80512'
-                onPress={() => navigation.push('MegaMillion') }
-                title="Mega Million"
-                />
-            )
+            headerTitle: "About Us"
+            // headerRight: (
+            // <Button
+            //     color='#c80512'
+            //     onPress={() => navigation.push('RandomNumber') }
+            //     title="QRNG"
+            //     />
+            // ),
+            // headerLeft :(
+            // <Button
+            //     color='#c80512'
+            //     onPress={() => navigation.push('MegaMillion') }
+            //     title="Mega Million"
+            //     />
+            // )
         }
 
     };
@@ -31,11 +44,12 @@ class About extends Component{
 
     render() {
         return (
+          <BackgroundImageComponent>
           <ScrollView style={styles.bg}>
-            <View style={styles.addMargin}>
+            <View style={styles.addMargin} backgroundColor='rgba(226, 236, 245, 0.7)' padding={30}>
               <Text style={styles.welcome}>
               The RNG & games are built upon the raw and true random numbers from inherently stochastic quantum processes. Our QRNs pass all randomness tests of the NIST and Dieharder test suites without any randomness extraction.</Text>
-              <View style={styles.welcome}>
+              <View style={styles.welcomeWithNoMarginBottom}>
               <Text style={styles.welcomeWithNoMarginBottom}>
               To learn more about how our QRNs and other ongoing quantum R&D, please feel free to contact Prof. Yuping Huang
               </Text>
@@ -43,8 +57,8 @@ class About extends Component{
                 <Text style={styles.link}>yuping.huang@stevens.edu</Text>
               </TouchableOpacity>
               </View>
-              <View style={styles.welcome}>
-              <Text style={styles.welcomeWithNoMarginBottom}>
+              <View style={styles.welcomeWithNoMarginBottom}>
+              <Text style={[styles.welcomeWithNoMarginBottom,styles.fontStyleItalic]}>
               Programmable quantum random number generator without postprocessing
               </Text>
 
@@ -53,7 +67,7 @@ class About extends Component{
               </TouchableOpacity>
               </View>
               <View style={styles.welcome}>
-                <Text style={styles.welcomeWithNoMarginBottom}>Quantum Systems for Monte Carlo Methods and Applications to Fractional Stochastic Processes </Text>
+                <Text style={[styles.welcomeWithNoMarginBottom,styles.fontStyleItalic]}>Quantum Systems for Monte Carlo Methods and Applications to Fractional Stochastic Processes </Text>
 
                 <TouchableOpacity onPress={() => this.openExternalLinks('https://arxiv.org/abs/1810.05639')}>
                   <Text style={styles.link}>(https://arxiv.org/abs/1810.05639)</Text>
@@ -70,6 +84,7 @@ class About extends Component{
             </View>
 
           </ScrollView>
+          </BackgroundImageComponent>
         );
       }
 }
@@ -77,16 +92,16 @@ class About extends Component{
 const styles = StyleSheet.create({
     welcome: {
       fontSize: 16,
-      color : '#c80512',
+      color : 'black',
       marginBottom : 20
     },
     welcomeWithNoMarginBottom:{
       fontSize:16,
-      color: '#c80512',
+      color: 'black',
     },
     imageDimensions :{
-      width : 150,
-      height : 50,
+      width : width/3,
+      height : height/3,
       resizeMode:'contain'
     },
     row :{
@@ -98,14 +113,23 @@ const styles = StyleSheet.create({
     },
     bg :{
       margin : 0,
-      backgroundColor : '#fff'
+      //backgroundColor : '#fff'
     },
     addMargin :{
       margin : 20,
     },
     link :{
       color : 'blue',
-    }
+    },
+     backgroundImage: {
+            flex: 1,
+            width: null,
+            height: null,
+            resizeMode: 'cover'
+      },
+      fontStyleItalic:{
+        fontStyle:'italic'
+      }
 
   });
 
