@@ -1,9 +1,21 @@
 import React, {Component} from 'react';
-import {Platform, StyleSheet, Text, View, Button, Image, Dimensions, ScrollView, TextInput, ActivityIndicator, Share} from 'react-native';
+import {Icon} from 'react-native-elements'
+import {Platform, StyleSheet, Text, View, Button, TouchableOpacity,Image,ImageBackground, Dimensions, ScrollView, TextInput, ActivityIndicator, Share} from 'react-native';
+class BackgroundImageComponent extends Component {
+
+    render() {
+      let image= this.props.image;
+        return (
+            <ImageBackground style={styles.backgroundImage} source={require('../Images/MegaMillions.png')}>
+                    {this.props.children}
+            </ImageBackground>
+        )
+    }
+}
 class MegaMillion extends Component{
   static navigationOptions=({navigation})=>{
     return{
-      headerTitle:'MegaMillion'
+      headerTitle:'Mega Million'
     }
   }
   constructor(props){
@@ -14,7 +26,7 @@ class MegaMillion extends Component{
     showArray:false
   }
   }
-  
+
   saveThisNumber(){
     const shareArray  = JSON.stringify(this.state.megaMillionArray);
     Share.share({
@@ -26,19 +38,20 @@ class MegaMillion extends Component{
       return(
           <View>
               <Text style={styles.numberText}>{JSON.stringify(this.state.megaMillionArray)}</Text>
-              <Button
-                  style={styles.textBorder}
-            color= {Platform.OS ==='ios'?'#ffffff':'#c80512'}
-                  onPress={() => this.saveThisNumber() }
-                  title="Save"
-              />
-              <View style={styles.label}></View>
-              <Button
-                  style={styles.textBorder}
-            color= {Platform.OS ==='ios'?'#ffffff':'#c80512'}
-            onPress={() => this.props.navigation.goBack() }
-                  title="Back to generate new Number"
-              />
+              <View flexDirection='row'>
+              <View flex={2}>
+              <TouchableOpacity
+                  onPress={() => this.saveThisNumber()}>
+              <Icon size={40} type='evilicon' color='#fff' name='share-apple'/>
+              </TouchableOpacity>
+              </View>
+              <View flex={2}>
+              <TouchableOpacity
+                  onPress={() => this.getMegaMillionNumbers()}>
+              <Icon size={30} color='#fff' name='replay'/>
+              </TouchableOpacity>
+              </View>
+              </View>
           </View>
       )
   }
@@ -55,13 +68,15 @@ class MegaMillion extends Component{
   }
   render(){
     return(
-    <View style={[styles.container,styles.themeBg]}>
-    {
-      (this.state.isLoaderOn)?
-      this.getMegaMillionNumbers():
-      this.showRandomNumber()
-    }
-    </View>
+      <BackgroundImageComponent>
+        <View style={[styles.container,styles.themeBg]}>
+        {
+          (this.state.isLoaderOn)?
+          this.getMegaMillionNumbers():
+          this.showRandomNumber()
+        }
+        </View>
+    </BackgroundImageComponent>
   )
   }
 }
@@ -79,7 +94,7 @@ const styles= StyleSheet.create({
       color : '#fff'
   },
    themeBg :{
-        backgroundColor : '#c80512',
+        //backgroundColor : '#c80512',
         margin : 0,
         padding : 0
     },
@@ -89,5 +104,11 @@ const styles= StyleSheet.create({
         alignItems :'center',
         justifyContent : 'center'
     },
+    backgroundImage: {
+          flex: 1,
+          width: null,
+          height: null,
+          resizeMode: 'cover'
+    }
 })
 export default MegaMillion

@@ -48,7 +48,7 @@ import com.android.build.OutputFile
  *
  *   // where to put the JS bundle asset in release mode
  *   jsBundleDirRelease: "$buildDir/intermediates/assets/release",
- *
+ 
  *   // where to put drawable resources / React Native assets, e.g. the ones you use via
  *   // require('./image.png')), in debug mode
  *   resourcesDirDebug: "$buildDir/intermediates/res/merged/debug",
@@ -148,6 +148,8 @@ android {
 }
 
 dependencies {
+    compile project(':react-native-vector-icons')
+    compile project(':react-native-wheel-picker')
     implementation fileTree(dir: "libs", include: ["*.jar"])
     implementation "com.android.support:appcompat-v7:${rootProject.ext.supportLibVersion}"
     implementation "com.facebook.react:react-native:+"  // From node_modules

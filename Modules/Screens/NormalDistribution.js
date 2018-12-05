@@ -18,10 +18,10 @@ class BackgroundImageComponent extends Component {
         )
     }
 }
-class RandomNumber extends Component{
+class NormalDistribution extends Component{
     static navigationOptions = ({ navigation }) => {
         return{
-            headerTitle: 'Generate Random Number'
+            headerTitle: 'Normal Distribution'
         }
 
     };
@@ -33,7 +33,7 @@ class RandomNumber extends Component{
             maxRange : '0',
             quantity : '0',
             isLoading : false,
-            randomNumber : null,
+            NormalDistribution : null,
             showNumber : false,
             showNumberBar:false,
             selectedItem:'',
@@ -43,21 +43,22 @@ class RandomNumber extends Component{
              modalVisible: false
         };
     }
-    getRandomNumber(type){
+    getNormalDistribution(type){
 
             if(Number(this.state.minRange)>Number(this.state.maxRange)){
           	    alert('Min range should be less than the Max range')
           	}
             else if(Number(this.state.minRange)==Number(this.state.maxRange)){
-              alert('Min range should be different and less than the Max range')
-            }else{
+              alert('Min range should be different and less than the Max ')
+            }
+            else{
             this.setState({ isLoading : true });
             fetch('http://quest.phy.stevens.edu:5050/main?lower='+this.state.minRange+'&higher='+this.state.maxRange+'&amount='+this.state.quantity)
             .then((response) => response.json())
             .then((responseJson) => {
                 this.setState({
                     isLoading: false,
-                    randomNumber: JSON.stringify(responseJson.finalrandomarray),
+                    NormalDistribution: JSON.stringify(responseJson.finalrandomarray),
                     showNumber : true,
                     showNumberBar:true
                 });
@@ -69,19 +70,19 @@ class RandomNumber extends Component{
   }
 
     saveThisNumber(){
-        const sharing_msg = this.state.randomNumber;
+        const sharing_msg = this.state.NormalDistribution;
         Share.share({
             message: sharing_msg
         });
     }
 
-    showRandomNumber(){
+    showNormalDistribution(){
         return(
 
             this.state.showNumberBar?
             <View style={{flex:3}}>
             <ScrollView height={height/3} marginBottom={20} fontSize={30} borderRadius={10}>
-                <Text paddingBottom={3} style={styles.numberText} alignItems="center">{this.state.randomNumber.replace("[","").replace("]","")}</Text>
+                <Text paddingBottom={3} style={styles.numberText} alignItems="center">{this.state.NormalDistribution.replace("[","").replace("]","")}</Text>
             </ScrollView>
             <View>
             <TouchableOpacity
@@ -159,6 +160,60 @@ class RandomNumber extends Component{
                         </Picker>
                         </View>
                         </View>
+      <View>
+       <Modal
+         animationType="slide"
+         transparent={true}
+         backgroundColor="white"
+         style={styles.modal}
+         visible={this.state.modalVisible}
+         onRequestClose={() => {
+           Alert.alert('Modal has been closed.');
+         }}>
+         <View style={{marginTop: 300}}>
+         <View style={{
+        flex: 1,
+        backgroundColor: 'rgba(80,80,80,0.1)',
+        flexDirection: 'column',
+        justifyContent: 'center',
+        alignItems: 'center'}}
+        onPressOut={()=>{this.setModalVisible(false)}}>
+        <View style={{
+                marginTop:height>600?height*30/100:height*10/100,
+                width: width*80/100,
+                position:'relative',
+                padding:20,
+                backgroundColor:'#ccd7e0',
+                borderRadius:30,
+                height: (height*60)/100}}
+                onPress={()=>{this.setModalVisible(false)}}>
+                <View style={{flex: 1}}>
+
+                <View style={{flex: 10}}>
+                <Text alignItems="center">{JSON.stringify(this.state.NormalDistribution).substr(2).replace("]","").replace('"',"")}</Text>
+                </View>
+                <View style={{flex: 2}}>
+                <View style={{flex:1,flexDirection:'row'}}>
+                <View style={{flex:3}}>
+                <TouchableOpacity
+                    onPress={() =>   this.setModalVisible(!this.state.modalVisible)}>
+                <Icon size={40} type='entypo' name='circle-with-cross'/>
+                </TouchableOpacity>
+                </View>
+                <View style={{flex:3}}>
+                <TouchableOpacity
+                    onPress={() => this.getNormalDistribution('uniform')}>
+                <Icon size={40} color='#000' name='replay'/>
+                </TouchableOpacity>
+                </View>
+                </View>
+                </View>
+               </View>
+        </View>
+        </View>
+        </View>
+       </Modal>
+     </View>
                         <View style={styles.label}></View>
                         {
                             (this.state.isLoading) ?
@@ -166,68 +221,14 @@ class RandomNumber extends Component{
                             :
                             <View alignItems='center' justifyContent='center'>
                             <TouchableOpacity
-                                onPress={() => this.getRandomNumber('uniform')}>
+                                onPress={() => this.getNormalDistribution('normal')}>
                                 <Image  source={require("../Images/button.png")} style={styles.imageStyle}/>
                             </TouchableOpacity>
                             </View>
                         }
-                        <View>
-                         <Modal
-                           animationType="slide"
-                           transparent={true}
-                           backgroundColor="white"
-                           style={styles.modal}
-                           visible={this.state.modalVisible}
-                           onRequestClose={() => {
-                             Alert.alert('Modal has been closed.');
-                           }}>
-                           <View style={{marginTop: 300}}>
-                           <View style={{
-                          flex: 1,
-                          backgroundColor: 'rgba(80,80,80,0.1)',
-                          flexDirection: 'column',
-                          justifyContent: 'center',
-                          alignItems: 'center'}}
-                          onPressOut={()=>{this.setModalVisible(false)}}>
-                          <View style={{
-                                  marginTop:height>600?height*30/100:height*10/100,
-                                  width: width*80/100,
-                                  position:'relative',
-                                  padding:20,
-                                  borderRadius:20,
-                                  backgroundColor:'#c09000',
-                                  height: (height*60)/100}}
-                                  onPress={()=>{this.setModalVisible(false)}}>
-                                  <View style={{flex: 1}}>
-
-                                  <View style={{flex: 10}}>
-                                  <Text alignItems="center">{JSON.stringify(this.state.randomNumber).substr(2).replace("]","").replace('"',"")}</Text>
-                                  </View>
-                                  <View style={{flex: 2}}>
-                                  <View style={{flex:1,flexDirection:'row'}}>
-                                  <View style={{flex:3}}>
-                                  <TouchableOpacity
-                                      onPress={() =>   this.setModalVisible(!this.state.modalVisible)}>
-                                  <Icon size={40} type='entypo' name='circle-with-cross'/>
-                                  </TouchableOpacity>
-                                  </View>
-                                  <View style={{flex:3}}>
-                                  <TouchableOpacity
-                                      onPress={() => this.getRandomNumber('uniform')}>
-                                  <Icon size={40} color='#000' name='replay'/>
-                                  </TouchableOpacity>
-                                  </View>
-                                  </View>
-                                  </View>
-                                 </View>
-                          </View>
-                          </View>
-                          </View>
-                         </Modal>
-                       </View>
                     </ScrollView>
                     {
-                      (this.showRandomNumber())
+                      (this.showNormalDistribution())
                     }
               </View>
           </View>
@@ -255,7 +256,6 @@ const styles = StyleSheet.create({
         padding : 15,
         borderWidth : 1,
         marginBottom : 20,
-        borderRadius:30,
         backgroundColor:'#c09000',
         borderColor : '#c09000',
         color :'#000'
@@ -263,7 +263,6 @@ const styles = StyleSheet.create({
     themeBg :{
         //backgroundColor : '#c80512',
         margin : 0,
-        borderRadius:30,
         padding : 0
     },
     whiteColor :{
@@ -310,15 +309,8 @@ const styles = StyleSheet.create({
         width: null,
         height: null,
         resizeMode: 'cover'
-  },
-  imageStyle:{
-    alignItems:'center',
-    justifyContent:'center',
-    height:70,
-    borderRadius:20,
-    width:70
-  },
+  }
   });
 
 
-export default RandomNumber;
+export default NormalDistribution;

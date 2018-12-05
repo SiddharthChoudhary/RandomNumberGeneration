@@ -1,13 +1,25 @@
 import React, {Component} from 'react';
-import {Platform, StyleSheet, Text, View, Button, Image, Dimensions} from 'react-native';
+import {Platform, StyleSheet, Text, View,ImageBackground, Button, Image, Dimensions} from 'react-native';
 
+class BackgroundImageComponent extends Component {
+
+    render() {
+      let image= this.props.image;
+        return (
+            <ImageBackground style={styles.backgroundImage} source={require('../Images/Splashpage.png')}>
+                    {this.props.children}
+            </ImageBackground>
+        )
+    }
+}
 
 class Splash extends Component{
+
     constructor() {
         super();
         this.state = { rehydrated: false };
     }
-    
+
     static navigationOptions = () => {
         return {
             header : null
@@ -16,16 +28,15 @@ class Splash extends Component{
 
     componentDidMount(){
         setTimeout(() => {
-            this.props.navigation.push('About');           
+            this.props.navigation.push('HomeScreen');
         }, 2000);
     }
 
     render() {
         return (
-          <View style={styles.container}>
-                <Image source={require('../Images/splashScreenIcon.png')} style={styles.imageDimensions} />  
-                <Text style={styles.title}>QUANTUM RNG & GAMES</Text>
-          </View>
+          <BackgroundImageComponent>
+
+          </BackgroundImageComponent>
         );
     }
 }
@@ -44,8 +55,14 @@ const styles = StyleSheet.create({
     imageDimensions:{
         width : 300,
         height : 250
-    }    
+    },
+    backgroundImage: {
+          flex: 1,
+          width: null,
+          height: null,
+          resizeMode: 'cover'
+    }
 });
-  
+
 
 export default Splash;
