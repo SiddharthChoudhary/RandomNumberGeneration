@@ -27,71 +27,65 @@ class HomeScreen extends Component{
   render(){
       return(
   <BackgroundImageComponent>
-    <Grid>
-      <Row size={.5}>
-      </Row>
-      <Row size={1}>
-        <Col>
-        <View style={styles.container}>
-
-          <TouchableOpacity style={styles.button} onPress={()=>this.props.navigation.push('RandomNumber')}>
-          <Image source={require("../Images/Uniform.png")} style={styles.imageStyle}/>
-          <View style={styles.viewStyle}>
-           <Text style={styles.label}>
-           Uniform QRN
-           </Text>
-           </View>
-          </TouchableOpacity>
-
+    <View flex={1} flexDirection='row'>
+    <View flex={2}>
+    </View>
+    <View flex={4}>
+      <View flex={1} flexDirection='column'>
+        <View flex={1}>
         </View>
-        </Col>
-        <Col>
-        <View style={styles.container}>
-          <TouchableOpacity style={styles.button} onPress={()=>this.props.navigation.push('NormalDistribution')}>
-           <Image source={require("../Images/normal.png")} style={styles.imageStyle}/>
-          <View style={styles.viewStyle}>
-           <Text style={styles.label}>
-           Normal QRN
-           </Text>
-           </View>
-           </TouchableOpacity>
+        <View flex={2}>
+        <TouchableOpacity style={styles.button} onPress={()=>this.props.navigation.push('RandomNumber')}>
+        <Image source={require("../Images/Uniform.png")} style={styles.imageStyle}/>
+        <View style={styles.viewStyle}>
+         <Text style={styles.label}>
+         Uniform QRN
+         </Text>
+         </View>
+        </TouchableOpacity>
         </View>
-        </Col>
-      </Row>
-      <Row size={.3}>
-      </Row>
-      <Row size={1}>
-        <Col>
-        <View style={styles.container}>
-          <TouchableOpacity style={styles.button} onPress={()=>this.props.navigation.push('MegaMillion')}>
-           <Image source={require("../Images/mega.png")} style={styles.imageStyle}/>
-          <View style={styles.viewStyle}>
-           <Text style={styles.label}>
-           Mega
-           <Text style={styles.label}>
-           Millions
-           </Text>
-           </Text>
-           </View>
-           </TouchableOpacity>
+        <View flex={2}>
+        <TouchableOpacity style={styles.button} onPress={()=>this.props.navigation.push('MegaMillion')}>
+         <Image source={require("../Images/mega.png")} style={styles.imageStyle}/>
+        <View style={styles.viewStyle}>
+         <Text style={styles.label}>
+         Mega
+         <Text style={styles.label}>
+         Million
+         </Text>
+         </Text>
+         </View>
+         </TouchableOpacity>
         </View>
-        </Col>
-        <Col>
-        <View style={styles.container}>
-          <TouchableOpacity style={styles.button} onPress={()=>this.props.navigation.push('About')}>
-           <Image source={require("../Images/about.png")} style={styles.imageStyle}/>
-        <View style={styles.viewStyle} marginLeft={3}>
+      </View>
+    </View>
+    <View flex={4}>
+      <View flex={1} flexDirection='column'>
+        <View flex={1}>
+        </View>
+        <View flex={2}>
+         <TouchableOpacity style={styles.button} onPress={()=>this.props.navigation.push('NormalDistribution')}>
+          <Image source={require("../Images/normal.png")} style={styles.imageStyle}/>
+         <View style={styles.viewStyle}>
           <Text style={styles.label}>
-          About
+          Normal QRN
           </Text>
           </View>
-            </TouchableOpacity>
+          </TouchableOpacity>
         </View>
-        </Col>
-      </Row>
-      <Row>
-      </Row>
-    </Grid>
+        <View flex={2}>
+        <TouchableOpacity style={styles.button} onPress={()=>this.props.navigation.push('About')}>
+         <Image source={require("../Images/about.png")} style={styles.imageStyle}/>
+          <View style={styles.viewStyle}>
+        <Text style={styles.label} >
+        About Us
+        </Text>
+        </View>
+          </TouchableOpacity>
+        </View>
+      </View>
+    </View>
+    </View>
     </BackgroundImageComponent>
       )
   }

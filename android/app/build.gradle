@@ -101,8 +101,8 @@ android {
         applicationId "com.numbergenerator"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
-        versionCode 50000
-        versionName "1.0.4"
+        versionCode 60000
+        versionName "1.0.5"
         ndk {
             abiFilters "armeabi-v7a", "x86"
         }

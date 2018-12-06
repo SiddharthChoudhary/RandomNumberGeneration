@@ -86,7 +86,7 @@ class RandomNumber extends Component{
             <View>
             <TouchableOpacity
                 onPress={() => this.saveThisNumber()}>
-            <Icon size={40} type='evilicon' color='#fff' name='share-apple'/>
+            <Icon size={40} type='evilicon' color='#fff' name={Platform.OS==='ios'?'share-apple':'share-google'}/>
             </TouchableOpacity>
             </View>
             </View>

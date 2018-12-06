@@ -42,7 +42,7 @@ class MegaMillion extends Component{
               <View flex={2}>
               <TouchableOpacity
                   onPress={() => this.saveThisNumber()}>
-              <Icon size={40} type='evilicon' color='#fff' name='share-apple'/>
+              <Icon size={40} type='evilicon' color='#fff' name={Platform.OS==='ios'?'share-apple':'share-google'}/>
               </TouchableOpacity>
               </View>
               <View flex={2}>
