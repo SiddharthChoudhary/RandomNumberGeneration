@@ -172,58 +172,6 @@ class RandomNumber extends Component{
                             </View>
                         }
                         <View>
-                         <Modal
-                           animationType="slide"
-                           transparent={true}
-                           backgroundColor="white"
-                           style={styles.modal}
-                           visible={this.state.modalVisible}
-                           onRequestClose={() => {
-                             Alert.alert('Modal has been closed.');
-                           }}>
-                           <View style={{marginTop: 300}}>
-                           <View style={{
-                          flex: 1,
-                          backgroundColor: 'rgba(80,80,80,0.1)',
-                          flexDirection: 'column',
-                          justifyContent: 'center',
-                          alignItems: 'center'}}
-                          onPressOut={()=>{this.setModalVisible(false)}}>
-                          <View style={{
-                                  marginTop:height>600?height*30/100:height*10/100,
-                                  width: width*80/100,
-                                  position:'relative',
-                                  padding:20,
-                                  borderRadius:20,
-                                  backgroundColor:'#c09000',
-                                  height: (height*60)/100}}
-                                  onPress={()=>{this.setModalVisible(false)}}>
-                                  <View style={{flex: 1}}>
-
-                                  <View style={{flex: 10}}>
-                                  <Text alignItems="center">{JSON.stringify(this.state.randomNumber).substr(2).replace("]","").replace('"',"")}</Text>
-                                  </View>
-                                  <View style={{flex: 2}}>
-                                  <View style={{flex:1,flexDirection:'row'}}>
-                                  <View style={{flex:3}}>
-                                  <TouchableOpacity
-                                      onPress={() =>   this.setModalVisible(!this.state.modalVisible)}>
-                                  <Icon size={40} type='entypo' name='circle-with-cross'/>
-                                  </TouchableOpacity>
-                                  </View>
-                                  <View style={{flex:3}}>
-                                  <TouchableOpacity
-                                      onPress={() => this.getRandomNumber('uniform')}>
-                                  <Icon size={40} color='#000' name='replay'/>
-                                  </TouchableOpacity>
-                                  </View>
-                                  </View>
-                                  </View>
-                                 </View>
-                          </View>
-                          </View>
-                          </View>
-                         </Modal>
                        </View>
                     </ScrollView>
                     {
