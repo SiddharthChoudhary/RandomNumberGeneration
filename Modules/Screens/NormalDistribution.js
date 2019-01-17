@@ -21,7 +21,7 @@ class BackgroundImageComponent extends Component {
 class NormalDistribution extends Component{
     static navigationOptions = ({ navigation }) => {
         return{
-            headerTitle: 'Normal Distribution'
+            headerTitle: 'Normally Distributed Numbers'
         }
 
     };

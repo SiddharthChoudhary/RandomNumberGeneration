@@ -21,7 +21,7 @@ class BackgroundImageComponent extends Component {
 class RandomNumber extends Component{
     static navigationOptions = ({ navigation }) => {
         return{
-            headerTitle: 'Generate Random Number'
+            headerTitle: 'Uniformly Distributed Numbers'
         }
 
     };
