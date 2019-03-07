@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {Platform, StyleSheet, Text, View, Button, Image,ImageBackground,TouchableOpacity, Dimensions, ScrollView, TextInput, ActivityIndicator, Share} from 'react-native';
+import {Platform,Linking, StyleSheet, Text, View, Button, Image,ImageBackground,TouchableOpacity, Dimensions, ScrollView, TextInput, ActivityIndicator, Share} from 'react-native';
 import { Col, Row, Grid } from 'react-native-easy-grid'
 var {height, width} = Dimensions.get('window');
 class BackgroundImageComponent extends Component {
@@ -39,7 +39,13 @@ class About extends Component{
 
 
     openExternalLinks = (url) => {
-      Linking.openURL(url).catch(err => console.error('An error occurred', err));
+      Linking.canOpenURL(url).then(supported => {
+        if (!supported) {
+          console.log('Can\'t handle url: ' + url);
+        } else {
+          return Linking.openURL(url);
+        }
+      }).catch(err => console.error('An error occurred', err));
     }
 
     render() {

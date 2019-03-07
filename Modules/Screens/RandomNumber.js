@@ -60,7 +60,11 @@ class RandomNumber extends Component{
                     randomNumber: JSON.stringify(responseJson.finalrandomarray),
                     showNumber : true,
                     showNumberBar:true
-                });
+                })
+            })
+            .catch((error)=>{
+                alert("Network error, try after some time")
+                this.setState({ isLoading:false})
             })
         }
     }

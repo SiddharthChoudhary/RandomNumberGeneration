@@ -53,7 +53,7 @@ class NormalDistribution extends Component{
             }
             else{
             this.setState({ isLoading : true });
-            fetch('http://quest.phy.stevens.edu:5050/main?lower='+this.state.minRange+'&higher='+this.state.maxRange+'&amount='+this.state.quantity)
+            fetch('http://quest.phy.stevens.edu:5050/normalDistribution?lower='+this.state.minRange+'&higher='+this.state.maxRange+'&amount='+this.state.quantity)
             .then((response) => response.json())
             .then((responseJson) => {
                 this.setState({
@@ -61,7 +61,11 @@ class NormalDistribution extends Component{
                     NormalDistribution: JSON.stringify(responseJson.finalrandomarray),
                     showNumber : true,
                     showNumberBar:true
-                });
+                })
+            })
+            .catch((error)=>{
+                alert("Network error, try after some time")
+                this.setState({ isLoading:false})
             })
         }
     }

@@ -118,6 +118,10 @@ class MegaMillion extends Component{
             showArray : true
         });
     })
+    .catch((error)=>{
+      alert("Network error, try after some time")
+      this.setState({ isLoaderOn:false})
+  })
   }
   render(){
     return(
