@@ -148,6 +148,10 @@ android {
 }
 
 dependencies {
+    compile project(':react-native-wheel-picker-android')
+    compile project(':@react-native-community_async-storage')
+    implementation project(':react-native-wheel-picker-android')
+    implementation project(':@react-native-community_async-storage')
     compile project(':react-native-vector-icons')
     compile project(':react-native-wheel-picker')
     implementation fileTree(dir: "libs", include: ["*.jar"])

@@ -57,36 +57,47 @@ class HomeScreen extends Component{
         </View>
         </Col>
       </Row>
-      <Row size={.3}>
-      </Row>
-      <Row size={1}>
+        <Row size={.3}></Row>
+        <Row size={1}>
+          <Col>
+            <View style={styles.container}>
+                <TouchableOpacity style={styles.button} onPress={()=>this.props.navigation.push('RandomList')}>
+                  <Image source={require("../Images/header-cover.png")} style={styles.imageStyle}/>
+                    <View marginTop={7} marginLeft={6}>
+                      <Text style={styles.label}>
+                        Randomize the List
+                      </Text>
+                    </View>
+                </TouchableOpacity>
+              </View>
+          </Col>
+          <Col>
+          <View style={styles.container}>
+              <TouchableOpacity style={styles.button} onPress={()=>this.props.navigation.push('MegaMillion')}>
+              <Image source={require("../Images/mega.png")} style={styles.imageStyle}/>
+              <View marginTop={7} marginLeft={6}>
+              <Text style={styles.label}>
+              Quantum Mega Millions
+              </Text>
+              </View>
+              </TouchableOpacity>
+            </View>
+          </Col>
+        </Row>
+        <Row size={1}>
         <Col>
         <View style={styles.container}>
-          <TouchableOpacity style={styles.button} onPress={()=>this.props.navigation.push('MegaMillion')}>
-           <Image source={require("../Images/mega.png")} style={styles.imageStyle}/>
-          <View marginTop={7} marginLeft={6}>
-           <Text style={styles.label}>
-           Quantum Mega Millions
-           </Text>
-           </View>
-           </TouchableOpacity>
-        </View>
-        </Col>
-        <Col>
-        <View style={styles.container}>
-          <TouchableOpacity style={styles.button} onPress={()=>this.props.navigation.push('About')}>
-           <Image source={require("../Images/about.png")} style={styles.imageStyle}/>
-        <View marginTop={7} marginLeft={12}>
-          <Text style={styles.label}>
-          About
-          </Text>
+            <TouchableOpacity style={styles.button} onPress={()=>this.props.navigation.push('About')}>
+            <Image source={require("../Images/about.png")} style={styles.imageStyle}/>
+          <View marginTop={7} marginLeft={12}>
+            <Text style={styles.label}>
+            About
+            </Text>
+            </View>
+              </TouchableOpacity>
           </View>
-            </TouchableOpacity>
-        </View>
-        </Col>
-      </Row>
-      <Row>
-      </Row>
+          </Col>
+        </Row>
     </Grid>
     </BackgroundImageComponent>
       )
