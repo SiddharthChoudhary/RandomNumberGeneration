@@ -40,7 +40,7 @@ class NormalDistribution extends Component{
             minRangeArray : range(0,100,1),
             maxRangeArray : range(0,100,1),
             quantityArray :  range(0,100,1),
-             modalVisible: false
+            modalVisible: false
         };
     }
     getNormalDistribution(type){

@@ -4,6 +4,8 @@ import AsyncStorage from '@react-native-community/async-storage'
 import {Icon} from 'react-native-elements'
 import {connect} from 'react-redux'
 import { YellowBox } from 'react-native';
+import Swipeout from 'react-native-swipeout'
+import FlatListItem from '../components/FlatListItem'
 YellowBox.ignoreWarnings(['Remote debugger']);
 class BackgroundImageComponent extends Component {
 
@@ -31,9 +33,23 @@ class RandomList extends Component{
     
     constructor(props){
         super(props)
-
+        //AsyncStorage.clear()
     }
-    seeTheList(listName){
+     deleteAnItem = async (listName) =>{
+        await AsyncStorage.removeItem(listName,(err)=>{
+             if(err){
+                 alert("There's nothing to delete")
+             }
+         })
+               await AsyncStorage.getAllKeys((err,result)=>{
+                    if(result){
+                        this.setState({
+                            lists:result
+                        })
+                    }
+                })
+            }
+    seeTheList = (listName) =>{
         if(listName){
             this.props.navigation.navigate('List',{'listName':listName})
         }
@@ -78,21 +94,11 @@ class RandomList extends Component{
                                 />
                             <FlatList
                                 keyExtractor={item => item}
-                                style={{
-                                    flex: 1,
-                                    flexDirection:'column',
-                                    alignContent:'center'
-                                }}
                                 data = {this.state.lists}
-                                renderItem = {({item}) => (
-                                    <TouchableOpacity style={styles.button} 
-                                        onPress={()=>this.seeTheList(item)}>
-                                            <View style={styles.borderRadiusForView}>
-                                                <Text style={styles.textCss}>
-                                                    {item}
-                                                </Text>
-                                            </View>
-                                    </TouchableOpacity>
+                                renderItem = {({item,index}) => (
+                                   <FlatListItem onPress={()=>this.seeTheList(item)} item1={item} parentFlatList={this} index={index}>
+
+                                   </FlatListItem>
                                 )}
                                 />
                             </ScrollView>
@@ -106,12 +112,10 @@ const styles = StyleSheet.create({
     container:{
         flex:1,
         margin:20,
-        alignItems:'center',
-        justifyContent:'center',
         flexDirection: 'column'
     },
     themeBg :{
-        backgroundColor : '#c80512',
+        // backgroundColor : '#c80512',
         margin : 0,
         padding : 0
     },
@@ -121,6 +125,9 @@ const styles = StyleSheet.create({
     button:{
         alignItems:'center',
         padding:'10%' ,
+    },
+    flatlistStyle:{
+        backgroundColor:'#c80512'
     },
     textCss:{
         fontSize: 20,

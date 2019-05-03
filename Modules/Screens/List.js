@@ -5,7 +5,7 @@ import {Icon} from 'react-native-elements'
 import {connect} from 'react-redux'
 import { Col, Row, Grid } from 'react-native-easy-grid'
 var {height, width} = Dimensions.get('window');
-
+import FlatListItem from '../components/FlatListItem'
 class BackgroundImageComponent extends Component {
 
     render() {
@@ -20,8 +20,15 @@ class BackgroundImageComponent extends Component {
 
 class List extends Component{
     static navigationOptions = ({navigation}) =>{
+        const showModal = navigation.getParam("show",()=>{});
         return{
-            headerTitle: navigation.state.params.listName
+            headerTitle: navigation.state.params.listName,
+            headerRight:(
+                <Button
+                    title='Add More'  
+                    onPress={()=>showModal()}
+                    />
+            ),
         }
     };
 
@@ -29,7 +36,11 @@ class List extends Component{
      lists:[],
      randomIndex:0,
      modalVisible:false,
-     refreshing : false
+     AddMoremodalVisible:false,
+     refreshing : false,
+     itemForTheList:'',
+     textInput:[],
+     firstTime:true
     }
     _onRefresh = () => {
         this.setState({refreshing: true});  
@@ -39,6 +50,10 @@ class List extends Component{
     constructor(props){
         super(props)
     }
+    componentDidMount(){
+        this.props.navigation.setParams({show:()=>this.addMoreToTheList()});
+        this.getItem()
+      }
     getItem(){
         AsyncStorage.getItem(this.props.navigation.state.params.listName,(err,result)=>{
             if(err){
@@ -46,6 +61,7 @@ class List extends Component{
             }else{
                 var resultArray = JSON.parse(result).toString().split(",")
                 if(resultArray==''){    
+                    this.setState({refreshing:false})
                     alert("List is empty")  
                 }else{
                 this.setState({lists:resultArray})
@@ -53,8 +69,82 @@ class List extends Component{
             }
         })
     }
-    componentDidMount(){
-       this.getItem()
+    addMoreToTheList(){
+        this.setState({
+            textInput:[],
+            itemForTheList:'',
+            AddMoremodalVisible:true
+        })
+    }
+    addItemToList(){
+        AsyncStorage.getItem(this.props.navigation.state.params.listName,(err,result)=>{
+            if(err){
+                alert("No item with that name")
+            }
+            if(result){
+                if(this.state.itemForTheList){
+                    //for adding the last textinput's value to the list
+                    this.state.lists.push(this.state.itemForTheList)
+                    let value = JSON.parse(result)
+                    value = Array.from(this.state.lists).concat(Array.from(value))
+                    AsyncStorage.removeItem(this.props.navigation.state.params.listName,()=>{
+                        AsyncStorage.setItem(this.props.navigation.state.params.listName,JSON.stringify(this.state.lists),(err)=>{
+                            //alert(err)
+                        })
+                    })
+                }
+            }
+        })
+    }
+    deleteAnItem = (itemName)=>{
+        AsyncStorage.getItem(this.props.navigation.state.params.listName,(err,result)=>{
+            if(err){
+                alert("No item with that name")
+            }
+            if(result){
+                //taking the result and then removing that particular instance by using a temporary array
+                let value = JSON.parse(result).toString().split(",")
+                let newArray = value.filter(item=> item !== itemName)
+                AsyncStorage.setItem(this.props.navigation.state.params.listName,JSON.stringify(newArray),()=>{
+                    AsyncStorage.getItem(this.props.navigation.state.params.listName,(err,result)=>{
+                        if(result){
+                            this.setState({
+                                //to convert the result to an array
+                                lists:JSON.parse(result).toString().split(","),
+                            })
+                        }
+                    })
+                })
+
+            }
+        })
+    }
+    addMoreItem(key){
+        //first adding the current item to the list
+        this.setState({firstTime:false})
+        if(this.state.textInput.length!=0&&!this.state.itemForTheList){
+            alert('First fill the previous value')
+            return
+        }
+        if(this.state.itemForTheList){
+            this.state.lists.push(this.state.itemForTheList)
+            this.setState({
+                itemForTheList:''
+            })
+        }
+
+        if(this.state.AddMoremodalVisible){
+            let textInput = this.state.textInput;
+            textInput.push(
+                <TextInput
+                    style={{height: 40,alignItems:'stretch',fontSize:30}}
+                    placeholder="Item"
+                    key={{key}}
+                    onChangeText={(itemForTheList) => this.setState({itemForTheList})}
+                    />
+            );
+            this.setState({textInput})
+        }
     }
     randomizeTheList(){
         if(this.state.lists.length==0){
@@ -93,12 +183,10 @@ class List extends Component{
                                                 width: 300,
                                             }}
                                             data = {this.state.lists}
-                                            renderItem = {({item}) => (
-                                                    <View style={[styles.button,styles.borderRadiusForView]} >
-                                                            <Text style={styles.textCss}>
-                                                                {item}
-                                                            </Text>
-                                                    </View>
+                                            renderItem = {({item,index}) => (
+                                                     <FlatListItem item1={item} onPress={()=>{console.log("Do nothing")}} parentFlatList={this} index={index}>
+
+                                                     </FlatListItem>
                                             )}
                                             />
                         </ScrollView>
@@ -109,45 +197,102 @@ class List extends Component{
                                     <Image  source={require("../Images/button.png")} style={styles.imageStyle}/>
                                 </TouchableOpacity>
                     </Row>
-                </Grid>
+                </Grid>     
+                <Modal 
+                                        animationType="slide"
+                                        transparent={true}
+                                        backgroundColor='#c80512'
+                                        visible={this.state.AddMoremodalVisible}
+                                        onRequestClose={() => {
+                                            Alert.alert('Modal has been closed.');
+                                        }}>
+                                        <View style={{
+                                            flex:1,
+                                            flexDirection:'column',
+                                            justifyContent:'center',
+                                            alignItems:'center'
+                                        }}>
+                                            <View style={{backgroundColor:'#ffffff',marginTop:50,width:300,height:(height/2),borderRadius:30,padding:20}}>
+                                            <Grid>
+                                            {
+                                                    (this.state.firstTime)?
+                                                        <Text style={{fontSize:20,margin:30}} onPress={()=>this.addMoreItem(this.state.textInput.length)}>Add your Item from below</Text>
+                                                    :
+                                                    console.log("Nothing")
+                                                }
+                                                <Row size={3}>
+                                                    <ScrollView>
+                                                        <View>
+                                                        {
+                                                            this.state.textInput.map((value, index) => {
+                                                                return value
+                                                            })
+                                                        }
+                                                        </View>
+                                                </ScrollView>
+                                                </Row>
+                                                    <Row>
+                                                            <Col>
+                                                                <TouchableOpacity
+                                                                    onPress={() => {
+                                                                    this.addItemToList()
+                                                                    this.setState({AddMoremodalVisible: !this.state.AddMoremodalVisible});
+                                                                    }}>
+                                                                    <Icon size={50} type='ionicon' color='green' name='ios-checkmark'/>                                                                
+                                                                </TouchableOpacity>
+                                                                </Col>
+                                                                <Col>
+                                                                <TouchableOpacity onPress={()=>this.addMoreItem(this.state.textInput.length)}>
+                                                                    <Icon size={60} type='ionicon' color='#c09000' name='ios-add'/>
+                                                                </TouchableOpacity>
+                                                                </Col>
+                                                                <Col>
+                                                                <TouchableOpacity
+                                                                    onPress={() => {
+                                                                    this.setState({AddMoremodalVisible: !this.state.AddMoremodalVisible});
+                                                                    }}>
+                                                                    <Icon size={50} type='ionicon' color='red' name='ios-close'/>
+                                                                </TouchableOpacity>
+                                                                </Col>
+                                                            </Row>
+                                                        </Grid>
+                                        </View> 
+                                        </View>                            
+                                    </Modal>
                             <Modal
                                         animationType="slide"
                                         transparent={false}
                                         visible={this.state.modalVisible}
-                                        closeOnClick={true}
-                                        onRequestClose={() => {
-                                            Alert.alert('Modal has been closed.');
+                                        closeOnClick={true}>
+                                        <View style={{
+                                            flex:1,
+                                            flexDirection:'column',
+                                            justifyContent:'center',
+                                            alignItems:'center'
                                         }}>
-                                        <TouchableOpacity onPress={()=>{this.setState({modalVisible:false})}}>
-                                        <View style={{height:height-10}}> 
-                                        <Grid>
-                                            <Row size={.3}>
-                                                </Row>
-                                            {/* <Row style={{alignSelf:'flex-end'}}>
-                                                <TouchableOpacity
-                                                    onPress={() => {
-                                                    this.setState({modalVisible: !this.state.modalVisible});
-                                                    }}>
-                                                    <Icon size={30} type='evilicon' color='green' name='close'/>
-                                                </TouchableOpacity>
-                                            </Row> */}
-                                            <Row>
-                                                <Grid alignItems="center" justifyContent="center">
+                                            <TouchableOpacity onPress={()=>{this.setState({modalVisible:false})}}>
+                                            <View style={{backgroundColor:'#ffffff',width:300,height:height-10}}> 
+                                            <Grid>
                                                 <Row size={.3}>
-                                                    <View>
-                                                        <Text style={styles.textCssForOnlyBoldAndWidth}>Choosen one is</Text>
-                                                    </View>
-                                                </Row>
+                                                    </Row>
                                                 <Row>
-                                                    <View>
-                                                        <Text style={[styles.button,styles.textCss]}>{this.state.lists[this.state.randomIndex]}</Text>
-                                                    </View>
+                                                    <Grid alignItems="center" justifyContent="center">
+                                                    <Row size={.3}>
+                                                        <View>
+                                                            <Text style={styles.textCssForOnlyBoldAndWidth}>Choosen one is</Text>
+                                                        </View>
+                                                    </Row>
+                                                    <Row>
+                                                        <View>
+                                                            <Text style={[styles.button,styles.textCss]}>{this.state.lists[this.state.randomIndex]}</Text>
+                                                        </View>
+                                                    </Row>
+                                                    </Grid>
                                                 </Row>
-                                                </Grid>
-                                            </Row>
-                                        </Grid>
+                                            </Grid>
+                                            </View>
+                                            </TouchableOpacity>
                                         </View>
-                                        </TouchableOpacity>
                                     </Modal>
                 </View>
             </BackgroundImageComponent>
@@ -162,7 +307,7 @@ const styles = StyleSheet.create({
         justifyContent:'center'
     },
     themeBg :{
-        backgroundColor : '#c80512',
+        // backgroundColor : '#c80512',
         margin : 0,
         padding : 0
     },
