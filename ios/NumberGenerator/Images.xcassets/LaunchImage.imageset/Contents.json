@@ -1,0 +1,23 @@
+{
+  "images" : [
+    {
+      "idiom" : "universal",
+      "filename" : "Splashpage.png",
+      "scale" : "1x"
+    },
+    {
+      "idiom" : "universal",
+      "filename" : "Splashpage-1.png",
+      "scale" : "2x"
+    },
+    {
+      "idiom" : "universal",
+      "filename" : "Splashpage-2.png",
+      "scale" : "3x"
+    }
+  ],
+  "info" : {
+    "version" : 1,
+    "author" : "xcode"
+  }
+}
