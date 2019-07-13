@@ -8,7 +8,6 @@ import Swipeout from 'react-native-swipeout'
 import FlatListItem from '../components/FlatListItem'
 YellowBox.ignoreWarnings(['Remote debugger']);
 class BackgroundImageComponent extends Component {
-
     render() {
       let image= this.props.image;
         return (
@@ -33,7 +32,7 @@ class RandomList extends Component{
     
     constructor(props){
         super(props)
-        //AsyncStorage.clear()
+        // AsyncStorage.clear()
     }
      deleteAnItem = async (listName) =>{
         await AsyncStorage.removeItem(listName,(err)=>{
@@ -101,6 +100,9 @@ class RandomList extends Component{
                                    </FlatListItem>
                                 )}
                                 />
+                            <View>
+                                <Text style={styles.poweredByStevens}>powered by Quest Lab @Stevens Institute of Technology</Text>
+                            </View>
                             </ScrollView>
                         </View>
                 </View>
@@ -125,6 +127,12 @@ const styles = StyleSheet.create({
     button:{
         alignItems:'center',
         padding:'10%' ,
+    },
+    poweredByStevens:{
+        alignItems:'center',
+        //alignContent:'center',
+        justifyContent:'center',
+        margin:20
     },
     flatlistStyle:{
         backgroundColor:'#c80512'

@@ -113,6 +113,7 @@ class AddNewList extends Component{
     addMoreItem(key){
         //first adding the current item to the list
         this.setState({firstTime:false})
+        //so that you can't fill up other fields
         if(this.state.textInput.length!=0&&!this.state.itemForTheList){
             alert('First fill the previous value')
             return

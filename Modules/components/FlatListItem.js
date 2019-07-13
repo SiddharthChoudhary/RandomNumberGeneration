@@ -65,7 +65,8 @@ const styles = StyleSheet.create({
         fontSize: 20,
         fontWeight: 'bold',
         backgroundColor:'transparent',
-        borderRadius:23,
+        borderRadius:15,
+        margin: 5,
         borderWidth: 0.9,
         overflow:'hidden',
         padding:9

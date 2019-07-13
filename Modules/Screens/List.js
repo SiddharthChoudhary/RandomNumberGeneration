@@ -148,7 +148,7 @@ class List extends Component{
     }
     randomizeTheList(){
         if(this.state.lists.length==0){
-            alert("THere is no item in the list")
+            alert("There is no item in the list")
         }else{
             fetch('http://quest.phy.stevens.edu:5050/main?lower=0&higher='+Number.parseInt(this.state.lists.length-1)+'&amount=1')
                 .then((response) => response.json())
