@@ -1,0 +1,112 @@
+“
+businessPolicyInputs”: [{
+    “
+    policyTypeID”: “RegularPay”,
+    “policyMajorVersion”: “3”,
+    “policyOptionID”: “MonetaryPay”,
+    “clientOptionInstanceID”: “5111172 _1”,
+    “calculationMethodID”: “HourlyPay”,
+    “policyInputs”: [{
+        “
+        inputVariableID”: “regularHoursWorked”,
+        “inputValue”: {
+            “
+            quantity”: 40.0,
+            “unitCode”: {
+                “
+                code”: “HUR”
+            }
+        }
+    }, {
+        “
+        inputVariableID”: “appliedHourlyRate”,
+        “inputValue”: {
+            “
+            rate”: 45,
+            “baseUnitCode”: {
+                “
+                code”: “HUR”
+            },
+            “currencyCode”: “USD”
+        }
+    }, {
+        “
+        inputVariableID”: “daysWorkedInJurisdiction”,
+        “inputValue”: {
+            “
+            quantity”: 5.0,
+            “unitCode”: {
+                “
+                code”: “DAY”
+            }
+        }
+    }, {
+        “
+        inputVariableID”: “scheduledWorkPeriodHours”,
+        “inputValue”: {
+            “
+            quantity”: 40.0,
+            “unitCode”: {
+                “
+                code”: “HUR”
+            }
+        }
+    }, {
+        “
+        inputVariableID”: “scheduledWorkPeriodDays”,
+        “inputValue”: {
+            “
+            quantity”: 5.0,
+            “unitCode”: {
+                “
+                code”: “DAY”
+            }
+        }
+    }],
+    “workedInJurisdictions”: [{
+        “
+        jurisdictionID”: “dea07e6d - 9432 - 4 f65 - 958 b - 25 f09e18117e”,
+        “jurisdictionLevelCode”: {
+            “
+            code”: “FEDERAL”
+        }
+    }, {
+        “
+        jurisdictionID”: “1 b219a1f - eda3 - 4 d44 - b2a0 - 9 cc068e3f9b7”,
+        “jurisdictionLevelCode”: {
+            “
+            code”: “STATE”
+        }
+    }, {
+        “
+        jurisdictionID”: “91 cbf298 - e801 - 4 a30 - a965 - ae5a46919324”,
+        “jurisdictionLevelCode”: {
+            “
+            code”: “MUNICIPALITY”
+        }
+    }]
+}, {
+    “
+    policyTypeID”: “Medical”,
+    “policyMajorVersion”: “3”,
+    “policyOptionID”: “StatutoryRegulated”,
+    “clientOptionInstanceID”: “5128995 _1”,
+    “calculationMethodID”: “FixedAssociateContribution”,
+    “policyInputs”: [{
+        “
+        inputVariableID”: “associateContributionAmount”,
+        “inputValue”: {
+            “
+            amount”: 45,
+            “currencyCode”: “USD”
+        }
+    }, {
+        “
+        inputVariableID”: “benefitPlanClassificationCode”,
+        “inputValue”: “NON_CAFE125”
+    }, {
+        “
+        inputVariableID”: “premiumContributionClassificationCode”,
+        “inputValue”: “ASSOCIATE”
+    }]
+}]

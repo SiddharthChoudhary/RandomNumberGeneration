@@ -62,10 +62,10 @@ class HomeScreen extends Component{
           <Col>
             <View style={styles.container}>
                 <TouchableOpacity style={styles.button} onPress={()=>this.props.navigation.push('RandomList')}>
-                  <Image source={require("../Images/header-cover.png")} style={styles.imageStyle}/>
+                  <Image source={require("../Images/QPicker.png")} style={styles.imageStyle}/>
                     <View marginTop={7} marginLeft={6}>
                       <Text style={styles.label}>
-                        Randomize the List
+                        Q-Picker
                       </Text>
                     </View>
                 </TouchableOpacity>

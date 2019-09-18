@@ -54,7 +54,18 @@ class RandomList extends Component{
         }
     }
     _onRefresh = () => {
-        this.setState({refreshing: true});  
+        AsyncStorage.getAllKeys((err,keys)=>{
+            if(keys){
+                this.setState({
+                    lists:keys,
+                    refreshing:false
+                })
+            }
+        });
+    }
+
+    getLatestData(){
+        console.log("I am getting fucked deepley");
         AsyncStorage.getAllKeys((err,keys)=>{
             if(keys){
                 this.setState({
@@ -65,7 +76,7 @@ class RandomList extends Component{
         });
       }
     addMore(){
-        this.props.navigation.push('AddNewList')
+        this.props.navigation.push('AddNewList',{getAllData:()=>this.getLatestData()})
     }
     componentDidMount(){
         AsyncStorage.getAllKeys((err,keys)=>{
@@ -76,6 +87,7 @@ class RandomList extends Component{
             }
           })
     }
+    
     render(){
         return(
             <BackgroundImageComponent>
@@ -86,7 +98,7 @@ class RandomList extends Component{
                                     <Icon size={60} type='evilicon' color='#fff' name='plus'/>
                                     </TouchableOpacity>
                                 </View>
-                            <ScrollView>
+                            <ScrollView ref={this.scrollDown}>
                                 <RefreshControl
                                     refreshing={this.state.refreshing}
                                     onRefresh={this._onRefresh}

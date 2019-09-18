@@ -53,7 +53,7 @@ class NormalDistribution extends Component{
             }
             else{
             this.setState({ isLoading : true });
-            fetch('http://quest.phy.stevens.edu:5050/normalDistribution?lower='+this.state.minRange+'&higher='+this.state.maxRange+'&amount='+this.state.quantity)
+            fetch('http://34.69.15.200:5050/normalDistribution?lower='+this.state.minRange+'&higher='+this.state.maxRange+'&amount='+this.state.quantity)
             .then((response) => response.json())
             .then((responseJson) => {
                 this.setState({

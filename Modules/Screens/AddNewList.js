@@ -18,143 +18,136 @@ class BackgroundImageComponent extends Component {
     }
 }
 
+const TextInputComponent = ({value, onChangeText, name, ...props}) => (
+    <TextInput
+        value={value}
+        autoFocus={true}
+        onChangeText={(value) => onChangeText(name, value)} //... Bind the name here
+        {...props}
+    />
+)
+
 class AddNewList extends Component{
     static navigationOptions = ({navigation}) =>{
         return{
             headerTitle: 'Random List'
         }
     };
-
+    
     constructor(props){
         super(props)
         this.state={
             listName:'',
-            listItems:[],
-            modalVisible:false,
+            listItems:{},
+            listDone:true,
             itemForTheList:'',
             textInput:[],
-            listDone:true,
-            firstTime:true,
+            modalVisible:false,
             RandomizedItemmodalVisible:false,
             randomIndex:0
         }
     }
-    async addItems(){
-        if(await AsyncStorage.getItem(this.state.listName)===null){
-            AsyncStorage.setItem(this.state.listName,JSON.stringify([]),(err)=>{
-                //alert(err)
-            })
+    handleTextChange=(name,value)=>{
+        if(name in this.state.listItems){
+            this.state.listItems[name]=value
         }
-        this.setState({modalVisible:true})
-        this.setState({textInput:[],firstTime:true,itemForTheList:''})
+    }
+    async handleChangeOfListName(value){
+        this.setState({
+            listName:value
+        })
     }
     _onRefresh = () => {
         this.setState({refreshing: true});  
         this.getItem()
         this.setState({refreshing:false})
-      }
-
+    }
+    componentWillUnmount(){
+        listItems = this.state.listItems
+        let listItemsSet = []
+        if(Object.entries(listItems).length!=0){
+            Object.keys(listItems).map((key,index)=>{
+                    if(listItems[key]!=''){
+                        listItemsSet.push(listItems[key])
+                    }
+                })
+                this.addItemToList(listItemsSet)
+        }
+        this.props.navigation.state.params.getAllData();
+    }
     getItem(){
         AsyncStorage.getItem(this.state.listName,(err,result)=>{
             if(err){
-                alert(err)
             }else{
                 var resultArray = JSON.parse(result).toString().split(",")
                 if(resultArray==''){    
-                    alert("List is empty")  
+                    alert("List is empty") 
                 }else{
                 this.setState({listItems:resultArray})
                 }
             }
         })
     }
-    addItemToList(){
-        AsyncStorage.getItem(this.state.listName,(err,result)=>{
+    async addItemToList(listItems){
+        await AsyncStorage.getItem(this.state.listName,(err,result)=>{
             if(err){
                 alert("No item with that name")
             }
-            if(result){
-                if(this.state.itemForTheList){
-                    this.state.listItems.push(this.state.itemForTheList)
+            else{
                     let value = JSON.parse(result)
-                    value = [this.state.listItems,...value]
-                    AsyncStorage.setItem(this.state.listName,JSON.stringify(this.state.listItems),(err)=>{
+                    value = [listItems,...value]
+                    console.log("listItems is under control", value)
+                    AsyncStorage.setItem(this.state.listName,JSON.stringify(value),(err)=>{
                         //alert(err)
                     })
                 }
-            }
         })
     }
-    deleteAnItem = (itemName)=>{
-        AsyncStorage.getItem(this.state.listName,(err,result)=>{
-            if(err){
-                alert("No item with that name")
-            }
-            if(result){
-                //taking the result and then removing that particular instance by using a temporary array
-                let value = JSON.parse(result).toString().split(",")
-                let newArray = value.filter(item=> item !== itemName)
-                AsyncStorage.setItem(this.state.listName,JSON.stringify(newArray),()=>{
-                    AsyncStorage.getItem(this.state.listName,(err,result)=>{
-                        if(result){
-                            this.setState({
-                                //to convert the result to an array
-                                listItems:JSON.parse(result).toString().split(",")
-                            })
-                            this.state.textInput.splice(this.state.textInput.length-1,1)
-                        }
-                    })
-                })
-
-            }
-        })
-    }
-    //when the thumbsUp button is clicked to show the modal and to add the particular item in the list
-    addMoreItem(key){
-        //first adding the current item to the list
-        this.setState({firstTime:false})
-        //so that you can't fill up other fields
-        if(this.state.textInput.length!=0&&!this.state.itemForTheList){
-            alert('First fill the previous value')
-            return
-        }
-        if(this.state.itemForTheList){
-            this.state.listItems.push(this.state.itemForTheList)
-            this.setState({
-                itemForTheList:''
+    async addTextInputToUI(key){
+        if(await AsyncStorage.getItem(this.state.listName)==null){
+            await AsyncStorage.setItem(this.state.listName,JSON.stringify([]),(err)=>{
+                //alert(err)
             })
         }
-        if(this.state.modalVisible){
-            let textInput = this.state.textInput;
+        let textInput = this.state.textInput;
+        if(this.state.itemForTheList!=""){
+            this.state.listItems.push(this.state.itemForTheList)
+        }
             textInput.push(
-                <TextInput
-                    style={{height: 40,alignItems:'stretch',fontSize:30}}
-                    placeholder="Item"
-                    key={{key}}
-                    onChangeText={(itemForTheList) => this.setState({itemForTheList})}
+                    <TextInputComponent
+                        value={this.state.value}
+                        placeholder="Item"
+                        key={{key}}
+                        style={{height: 40,alignItems:'stretch',fontSize:30,borderWidth:1,margin:5}}
+                        onChangeText={this.handleTextChange}
+                        onSubmitEditing={this.handleKeyDown.bind(this)}
+                        name={'textInput'+key}
                     />
             );
+            this.state.listItems['textInput'+key]=''
             this.setState({textInput})
-        }
     }
     randomizeTheList(){
         if(this.state.listItems.length==0){
-            alert("THere is no item in the list")
+            alert("There is no item in the list")
         }else{
-            fetch('http://quest.phy.stevens.edu:5050/main?lower=0&higher='+Number.parseInt(this.state.listItems.length-1)+'&amount=1')
+            fetch('http://34.69.15.200:5050/main?lower=0&higher='+Number.parseInt(this.state.textInput.length-1)+'&amount=1')
                 .then((response) => response.json())
                 .then((responseJson) => {
                     this.setState({
                         randomIndex: responseJson.finalrandomarray
                     },()=>{
+                        console.log("ListItems are "+this.state.listItems["textInput"+this.randomIndex])
                         this.setState({RandomizedItemmodalVisible:true})
                     })
-                    
                 })
                 .catch((error)=>{
                 alert(error)
             })
         }
+    }
+    handleKeyDown(){
+        this.addTextInputToUI(this.state.textInput.length)
     }
     render(){
         return(
@@ -175,9 +168,10 @@ class AddNewList extends Component{
                             {
                                 (this.state.listDone)?
                                 <TextInput
-                                style={{height: 40,alignItems:'stretch',margin:30,fontSize:30}}
-                                placeholder="List's Unique Name!"
-                                onChangeText={(listName) => this.setState({listName})}
+                                style={{height: 40,alignItems:'stretch',margin:30,fontSize:30,padding:2}}
+                                placeholder="NAME YOUR LIST"
+                                onChangeText={(value)=>this.handleChangeOfListName(value)}
+                                onSubmitEditing={this.handleKeyDown.bind(this)}
                                 />
                                 :
                                 <View>
@@ -186,68 +180,32 @@ class AddNewList extends Component{
                                     </Text> 
                                 </View>
                             }
-                                    <Modal 
-                                        animationType="slide"
-                                        transparent={true}
-                                        backgroundColor='#c80512'
-                                        visible={this.state.modalVisible}
-                                        onRequestClose={() => {
-                                            Alert.alert('Modal has been closed.');
-                                        }}>
-                                        <View style={{
-                                            flex:1,
-                                            flexDirection:'column',
-                                            justifyContent:'center',
-                                            alignItems:'center'
-                                        }}>
-                                        <View style={{backgroundColor:'#ffffff',marginTop:50,width:300,height:(height/2),borderRadius:30,padding:20}}>
-                                            <Grid>
-                                                {
-                                                    (this.state.firstTime)?
-                                                        <Text style={{fontSize:20,margin:30}} onPress={()=>this.addMoreItem(this.state.textInput.length)}>Add your Item from below</Text>
-                                                    :
-                                                    console.log("Nothing")
-                                                }
-                                                <Row size={3}>
-                                                    <ScrollView>
-                                                        <View>
-                                                        {
-                                                            this.state.textInput.map((value, index) => {
-                                                                return value
-                                                            })
-                                                        }
-                                                        </View>
-                                                </ScrollView>
-                                                </Row>
-                                                    <Row>
-                                                            <Col>
-                                                                <TouchableOpacity
-                                                                    onPress={() => {
-                                                                    this.addItemToList()
-                                                                    this.setState({modalVisible: !this.state.modalVisible,listDone:false});
-                                                                    }}>
-                                                                     <Icon size={50} type='ionicon' color='green' name='ios-checkmark'/>                                                         
-                                                                </TouchableOpacity>
-                                                                </Col>
-                                                                <Col>
-                                                                <TouchableOpacity onPress={()=>this.addMoreItem(this.state.textInput.length)}>
-                                                                <Icon size={60} type='ionicon' color='#c09000' name='ios-add'/>
-                                                                </TouchableOpacity>
-                                                                </Col>
-                                                                <Col>
-                                                                <TouchableOpacity
-                                                                    onPress={() => {
-                                                                    this.setState({modalVisible: !this.state.modalVisible});
-                                                                    }}>
-                                                                    <Icon size={50} type='ionicon' color='red' name='ios-close'/>
-                                                                </TouchableOpacity>
-                                                                </Col>
-                                                            </Row>
-                                                        </Grid>
-                                        </View> 
-                                        </View>
-                                    </Modal>
-                                    <Modal
+                            {
+                                (this.state.textInput.length<1)?
+                                <TouchableOpacity
+                                    onPress={()=>this.addTextInputToUI(this.state.textInput.length)}
+                                    margin='20'>
+                                    <Icon size={60} type='evilicon' color='#fff' name='plus'/>
+                                    </TouchableOpacity>
+                                :
+                                    console.log("Nothing")
+                            }
+                                    <View>
+                                        {
+                                            this.state.textInput.map((value, index) => {
+                                                return value
+                                            })
+                                        }
+                                    </View>
+                            </View>
+                        </ScrollView>
+                        <Row alignItems="center" justifyContent= 'center'>
+                                <TouchableOpacity
+                                    onPress={() => this.randomizeTheList()}>
+                                    <Image  source={require("../Images/button.png")} style={styles.imageStyle}/>
+                                </TouchableOpacity>
+                        </Row>
+                        <Modal
                                         animationType="slide"
                                         transparent={false}
                                         visible={this.state.RandomizedItemmodalVisible}
@@ -272,7 +230,7 @@ class AddNewList extends Component{
                                                     </Row>
                                                     <Row>
                                                         <View>
-                                                            <Text style={[styles.button,styles.textCss]}>{this.state.listItems[this.state.randomIndex]}</Text>
+                                                            <Text style={[styles.button,styles.textCss]}>{this.state.listItems['textInput'+this.state.randomIndex]}</Text>
                                                         </View>
                                                     </Row>
                                                     </Grid>
@@ -282,41 +240,6 @@ class AddNewList extends Component{
                                             </TouchableOpacity>
                                         </View>
                                     </Modal>
-                            <FlatList
-                                keyExtractor={item => item}
-                                style={{
-                                    flex: 1,
-                                    width: 300,
-                                    flexDirection:'column',
-                                    alignContent:'center'   
-                                }}
-                                data = {this.state.listItems}
-                                renderItem = {({item,index}) => (
-                                    <FlatListItem item1={item} onPress={()=>{console.log("Do nothing")}} parentFlatList={this} index={index}>
-
-                                    </FlatListItem>
-                                )}
-                                />
-                            {
-                                (this.state.listName)?
-                                <TouchableOpacity
-                                     onPress={()=>this.addItems()} margin='20'>
-                                    <Icon size={60} type='evilicon' color='#fff' name='plus'/>
-                                    </TouchableOpacity>
-                                :
-                                    console.log("Nothing")
-                                    // <View alignItems="center" justifyContent="center">
-                                    //     <Text fontSize="20">Name the list first</Text>
-                                    // </View>
-                            }
-                                 <View style={{alignItems:'center',justifyContent:'center'}}>
-                                 <TouchableOpacity
-                                    onPress={() => this.randomizeTheList()}>
-                                    <Image  source={require("../Images/button.png")} style={styles.imageStyle}/>
-                                </TouchableOpacity>
-                                </View>
-                            </View>
-                        </ScrollView>
                     </View> 
                 </View>
             </BackgroundImageComponent>

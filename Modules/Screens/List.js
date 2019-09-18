@@ -40,7 +40,9 @@ class List extends Component{
      refreshing : false,
      itemForTheList:'',
      textInput:[],
-     firstTime:true
+     firstTime:true,
+     randomIndex:0,
+     RandomizedItemmodalVisible:false,
     }
     _onRefresh = () => {
         this.setState({refreshing: true});  
@@ -140,6 +142,8 @@ class List extends Component{
                     style={{height: 40,alignItems:'stretch',fontSize:30}}
                     placeholder="Item"
                     key={{key}}
+                    autoFocus={true}
+                    onSubmitEditing={this.handleKeyDown.bind(this)}
                     onChangeText={(itemForTheList) => this.setState({itemForTheList})}
                     />
             );
@@ -150,7 +154,7 @@ class List extends Component{
         if(this.state.lists.length==0){
             alert("There is no item in the list")
         }else{
-            fetch('http://quest.phy.stevens.edu:5050/main?lower=0&higher='+Number.parseInt(this.state.lists.length-1)+'&amount=1')
+            fetch('http://34.69.15.200:5050/main?lower=0&higher='+Number.parseInt(this.state.lists.length-1)+'&amount=1')
                 .then((response) => response.json())
                 .then((responseJson) => {
                     this.setState({
@@ -158,12 +162,15 @@ class List extends Component{
                     },()=>{
                         this.setState({modalVisible:true})
                     })
-                    
                 })
                 .catch((error)=>{
                 alert(error)
             })
         }
+    }
+    //for pressing the enter key and to handle it 
+    handleKeyDown(){
+        this.addMoreItem(this.state.textInput.length)
     }
     render(){
         return(

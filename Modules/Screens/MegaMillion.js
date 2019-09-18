@@ -109,7 +109,7 @@ class MegaMillion extends Component{
       )
   }
   getMegaMillionNumbers(){
-    fetch('http://quest.phy.stevens.edu:5050/megaMillion')
+    fetch('http://34.69.15.200:5050/megaMillion')
     .then((response) => response.json())
     .then((responseJson) => {
         this.setState({

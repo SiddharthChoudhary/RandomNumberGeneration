@@ -52,7 +52,7 @@ class RandomNumber extends Component{
               alert('Min range should be different and less than the Max range')
             }else{
             this.setState({ isLoading : true });
-            fetch('http://quest.phy.stevens.edu:5050/main?lower='+this.state.minRange+'&higher='+this.state.maxRange+'&amount='+this.state.quantity)
+            fetch('http://34.69.15.200:5050/main?lower='+this.state.minRange+'&higher='+this.state.maxRange+'&amount='+this.state.quantity)
             .then((response) => response.json())
             .then((responseJson) => {
                 this.setState({
@@ -81,7 +81,6 @@ class RandomNumber extends Component{
 
     showRandomNumber(){
         return(
-
             this.state.showNumberBar?
             <View style={{flex:3}}>
             <ScrollView height={height/3} marginBottom={20} fontSize={30} borderRadius={10}>
@@ -96,7 +95,6 @@ class RandomNumber extends Component{
             </View>
             :
             null
-
         )
     }
     onMinRangeSelect(index) {
