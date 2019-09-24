@@ -65,7 +65,7 @@ class HomeScreen extends Component{
                   <Image source={require("../Images/QPicker.png")} style={styles.imageStyle}/>
                     <View marginTop={7} marginLeft={6}>
                       <Text style={styles.label}>
-                        Q-Picker
+                        Quantum Picker
                       </Text>
                     </View>
                 </TouchableOpacity>

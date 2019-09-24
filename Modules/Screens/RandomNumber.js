@@ -52,7 +52,7 @@ class RandomNumber extends Component{
               alert('Min range should be different and less than the Max range')
             }else{
             this.setState({ isLoading : true });
-            fetch('http://34.69.15.200:5050/main?lower='+this.state.minRange+'&higher='+this.state.maxRange+'&amount='+this.state.quantity)
+            fetch('http://35.192.39.81:5050/main?lower='+this.state.minRange+'&higher='+this.state.maxRange+'&amount='+this.state.quantity)
             .then((response) => response.json())
             .then((responseJson) => {
                 this.setState({

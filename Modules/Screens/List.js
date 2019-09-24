@@ -154,7 +154,7 @@ class List extends Component{
         if(this.state.lists.length==0){
             alert("There is no item in the list")
         }else{
-            fetch('http://34.69.15.200:5050/main?lower=0&higher='+Number.parseInt(this.state.lists.length-1)+'&amount=1')
+            fetch('http://35.192.39.81:5050/main?lower=0&higher='+Number.parseInt(this.state.lists.length-1)+'&amount=1')
                 .then((response) => response.json())
                 .then((responseJson) => {
                     this.setState({

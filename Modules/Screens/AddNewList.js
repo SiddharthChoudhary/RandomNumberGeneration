@@ -44,7 +44,8 @@ class AddNewList extends Component{
             textInput:[],
             modalVisible:false,
             RandomizedItemmodalVisible:false,
-            randomIndex:0
+            randomIndex:0,
+            TemporaryArrayForDisplay:[]
         }
     }
     handleTextChange=(name,value)=>{
@@ -127,18 +128,30 @@ class AddNewList extends Component{
             this.state.listItems['textInput'+key]=''
             this.setState({textInput})
     }
+    // listitems should be there and should not be null
+    generateInputArrayToChooseFrom(){
+        listItems = this.state.listItems
+        if(!listItems){
+            return;
+        }
+        Object.keys(listItems).map((key,index)=>{
+            if(listItems[key]!=''){
+                this.state.TemporaryArrayForDisplay.push(listItems[key])
+            }
+        })
+    }
     randomizeTheList(){
         if(this.state.listItems.length==0){
             alert("There is no item in the list")
         }else{
-            fetch('http://34.69.15.200:5050/main?lower=0&higher='+Number.parseInt(this.state.textInput.length-1)+'&amount=1')
+            this.generateInputArrayToChooseFrom()
+            fetch('http://35.192.39.81:5050/main?lower=0&higher='+Number.parseInt(this.state.TemporaryArrayForDisplay.length-1)+'&amount=1')
                 .then((response) => response.json())
                 .then((responseJson) => {
                     this.setState({
                         randomIndex: responseJson.finalrandomarray
                     },()=>{
-                        console.log("ListItems are "+this.state.listItems["textInput"+this.randomIndex])
-                        this.setState({RandomizedItemmodalVisible:true})
+                            this.setState({RandomizedItemmodalVisible:true})
                     })
                 })
                 .catch((error)=>{
@@ -154,11 +167,11 @@ class AddNewList extends Component{
             <BackgroundImageComponent>
                 <View style={[styles.container,styles.themeBg]}>
                      <View>
-                        <ScrollView>
-                        <RefreshControl
+                        <ScrollView keyboardDismissMode={'on-drag'} keyboardShouldPersistTaps='handled'>
+                        {/* <RefreshControl
                                     refreshing={this.state.refreshing}
                                     onRefresh={this._onRefresh}
-                                />
+                                /> */}
                             <View style={{
                                     flex: 1,
                                     flexDirection: 'column',
@@ -169,7 +182,7 @@ class AddNewList extends Component{
                                 (this.state.listDone)?
                                 <TextInput
                                 style={{height: 40,alignItems:'stretch',margin:30,fontSize:30,padding:2}}
-                                placeholder="NAME YOUR LIST"
+                                placeholder="Name your list"
                                 onChangeText={(value)=>this.handleChangeOfListName(value)}
                                 onSubmitEditing={this.handleKeyDown.bind(this)}
                                 />
@@ -230,7 +243,7 @@ class AddNewList extends Component{
                                                     </Row>
                                                     <Row>
                                                         <View>
-                                                            <Text style={[styles.button,styles.textCss]}>{this.state.listItems['textInput'+this.state.randomIndex]}</Text>
+                                                            <Text style={[styles.button,styles.textCss]}>{this.state.TemporaryArrayForDisplay[this.state.randomIndex]}</Text>
                                                         </View>
                                                     </Row>
                                                     </Grid>
