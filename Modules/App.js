@@ -14,6 +14,9 @@ import RandomNumberScreen from '../Modules/Screens/RandomNumber';
 import SplashScreen from '../Modules/Screens/SplashScreen';
 import MegaMillion from '../Modules/Screens/MegaMillion';
 import HomeScreen from '../Modules/Screens/HomeScreen';
+import RandomList from '../Modules/Screens/RandomList';
+import AddNewList from '../Modules/Screens/AddNewList'
+import List from '../Modules/Screens/List'
 import NormalDistribution from '../Modules/Screens/NormalDistribution';
 export default createStackNavigator({
   Splash : SplashScreen,
@@ -21,5 +24,8 @@ export default createStackNavigator({
   About: AboutScreen,
   NormalDistribution:NormalDistribution,
   RandomNumber: RandomNumberScreen,
-  MegaMillion:MegaMillion
+  MegaMillion:MegaMillion,
+  RandomList:RandomList,
+  AddNewList:AddNewList,
+  List: List
 });
