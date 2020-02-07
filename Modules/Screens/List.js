@@ -139,7 +139,7 @@ class List extends Component{
             let textInput = this.state.textInput;
             textInput.push(
                 <TextInput
-                    style={{height: 40,alignItems:'stretch',fontSize:30}}
+                    style={{height: ((height/100)*10),alignItems:'stretch',fontSize:30}}
                     placeholder="Item"
                     key={{key}}
                     autoFocus={true}
@@ -154,7 +154,7 @@ class List extends Component{
         if(this.state.lists.length==0){
             alert("There is no item in the list")
         }else{
-            fetch('http://35.192.39.81:5050/main?lower=0&higher='+Number.parseInt(this.state.lists.length-1)+'&amount=1')
+            fetch('https://exalted-iridium-265519.appspot.com/main?lower=0&higher='+Number.parseInt(this.state.lists.length-1)+'&amount=1')
                 .then((response) => response.json())
                 .then((responseJson) => {
                     this.setState({

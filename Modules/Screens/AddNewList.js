@@ -105,28 +105,32 @@ class AddNewList extends Component{
         })
     }
     async addTextInputToUI(key){
-        if(await AsyncStorage.getItem(this.state.listName)==null){
-            await AsyncStorage.setItem(this.state.listName,JSON.stringify([]),(err)=>{
-                //alert(err)
-            })
+        if(!this.state.listName){
+            alert("Name the list first")
+        }else{
+            if(await AsyncStorage.getItem(this.state.listName)==null){
+                await AsyncStorage.setItem(this.state.listName,JSON.stringify([]),(err)=>{
+                    // alert(err)
+                })
+            }
+            let textInput = this.state.textInput;
+            if(this.state.itemForTheList!=""){
+                this.state.listItems.push(this.state.itemForTheList)
+            }
+                textInput.push(
+                        <TextInputComponent
+                            value={this.state.value}
+                            placeholder="Item"
+                            key={{key}}
+                            style={{height:(40),alignItems:'stretch',fontSize:30,borderWidth:1,margin:5}}
+                            onChangeText={this.handleTextChange}
+                            onSubmitEditing={this.handleKeyDown.bind(this)}
+                            name={'textInput'+key}
+                        />
+                );
+                this.state.listItems['textInput'+key]=''
+                this.setState({textInput})
         }
-        let textInput = this.state.textInput;
-        if(this.state.itemForTheList!=""){
-            this.state.listItems.push(this.state.itemForTheList)
-        }
-            textInput.push(
-                    <TextInputComponent
-                        value={this.state.value}
-                        placeholder="Item"
-                        key={{key}}
-                        style={{height: 40,alignItems:'stretch',fontSize:30,borderWidth:1,margin:5}}
-                        onChangeText={this.handleTextChange}
-                        onSubmitEditing={this.handleKeyDown.bind(this)}
-                        name={'textInput'+key}
-                    />
-            );
-            this.state.listItems['textInput'+key]=''
-            this.setState({textInput})
     }
     // listitems should be there and should not be null
     generateInputArrayToChooseFrom(){
@@ -145,7 +149,7 @@ class AddNewList extends Component{
             alert("There is no item in the list")
         }else{
             this.generateInputArrayToChooseFrom()
-            fetch('http://35.192.39.81:5050/main?lower=0&higher='+Number.parseInt(this.state.TemporaryArrayForDisplay.length-1)+'&amount=1')
+            fetch('https://exalted-iridium-265519.appspot.com/main?lower=0&higher='+Number.parseInt(this.state.TemporaryArrayForDisplay.length-1)+'&amount=1')
                 .then((response) => response.json())
                 .then((responseJson) => {
                     this.setState({
@@ -167,6 +171,7 @@ class AddNewList extends Component{
             <BackgroundImageComponent>
                 <View style={[styles.container,styles.themeBg]}>
                      <View>
+                        <Row size={3} alignItems="center" justifyContent="center">
                         <ScrollView keyboardDismissMode={'on-drag'} keyboardShouldPersistTaps='handled'>
                         {/* <RefreshControl
                                     refreshing={this.state.refreshing}
@@ -212,7 +217,8 @@ class AddNewList extends Component{
                                     </View>
                             </View>
                         </ScrollView>
-                        <Row alignItems="center" justifyContent= 'center'>
+                        </Row>
+                        <Row size={1} alignItems="center" justifyContent= 'center'>
                                 <TouchableOpacity
                                     onPress={() => this.randomizeTheList()}>
                                     <Image  source={require("../Images/button.png")} style={styles.imageStyle}/>

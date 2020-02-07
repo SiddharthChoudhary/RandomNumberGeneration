@@ -34,6 +34,7 @@ class RandomList extends Component{
         super(props)
         // AsyncStorage.clear()
     }
+
      deleteAnItem = async (listName) =>{
         await AsyncStorage.removeItem(listName,(err)=>{
              if(err){
@@ -65,7 +66,6 @@ class RandomList extends Component{
     }
 
     getLatestData(){
-        console.log("I am getting fucked deepley");
         AsyncStorage.getAllKeys((err,keys)=>{
             if(keys){
                 this.setState({

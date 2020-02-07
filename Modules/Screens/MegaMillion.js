@@ -109,7 +109,7 @@ class MegaMillion extends Component{
       )
   }
   getMegaMillionNumbers(){
-    fetch('http://35.192.39.81:5050/megaMillion')
+    fetch('https://exalted-iridium-265519.appspot.com/megaMillion')
     .then((response) => response.json())
     .then((responseJson) => {
         this.setState({

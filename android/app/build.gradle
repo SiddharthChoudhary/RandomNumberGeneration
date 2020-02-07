@@ -101,10 +101,10 @@ android {
         applicationId "com.numbergenerator"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
-        versionCode 80000
-        versionName "1.0.9"
+        versionCode 170000
+        versionName "1.0.18"
         ndk {
-            abiFilters "armeabi-v7a", "x86"
+            abiFilters "armeabi-v7a", "arm64-v8a","x86","x86_64"
         }
     }
     signingConfigs {
@@ -148,12 +148,12 @@ android {
 }
 
 dependencies {
-    compile project(':react-native-wheel-picker-android')
-    compile project(':@react-native-community_async-storage')
     implementation project(':react-native-wheel-picker-android')
     implementation project(':@react-native-community_async-storage')
-    compile project(':react-native-vector-icons')
-    compile project(':react-native-wheel-picker')
+    implementation project(':react-native-wheel-picker-android')
+    implementation project(':@react-native-community_async-storage')
+    implementation project(':react-native-vector-icons')
+    implementation project(':react-native-wheel-picker')
     implementation fileTree(dir: "libs", include: ["*.jar"])
     implementation "com.android.support:appcompat-v7:${rootProject.ext.supportLibVersion}"
     implementation "com.facebook.react:react-native:+"  // From node_modules

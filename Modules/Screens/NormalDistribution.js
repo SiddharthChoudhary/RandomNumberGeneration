@@ -53,7 +53,7 @@ class NormalDistribution extends Component{
             }
             else{
             this.setState({ isLoading : true });
-            fetch('http://35.192.39.81:5050/normalDistribution?lower='+this.state.minRange+'&higher='+this.state.maxRange+'&amount='+this.state.quantity)
+            fetch('https://exalted-iridium-265519.appspot.com/normalDistribution?lower='+this.state.minRange+'&higher='+this.state.maxRange+'&amount='+this.state.quantity)
             .then((response) => response.json())
             .then((responseJson) => {
                 this.setState({
